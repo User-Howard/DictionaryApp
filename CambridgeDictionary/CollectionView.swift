@@ -15,7 +15,7 @@ struct CollectionView: View {
             ZStack {
                 // Color.accentColor
                 NavigationLink {
-                    ResultView(Word: "apple")
+                    ResultView(Word: "home")
                 }label: {
                     VStack {
                         Text("2")

@@ -24,17 +24,17 @@ struct ResultView: View {
             ZStack {
                 // Color.green
                 VStack {
-                    IntroduuctionView(Title: result.word, Phonetics: "dsf")
+                    IntroduuctionView(Title: result.word, Phonetics: "result.phonetics.text")
                         .padding([.top, .horizontal])
                     
                     ZStack{
                         // Color.blue
                         ScrollView {
-                            VStack(alignment: .leading) {
-                                DetailsView(PartOfSpeech: "Verb")
-                                DetailsFINALView(Title_: "Interjection")
-                                Spacer(minLength: 200)
+                            ForEach(result.meanings, id: \.partOfSpeech) { meaning in
+                                DetailsView(PartOfSpeech: meaning.partOfSpeech, Definitions: meaning.definitions)
                             }
+                            
+                            Spacer(minLength: 200)
                         }
                     }
                     .cornerRadius(8)
@@ -59,11 +59,9 @@ struct ResultView: View {
     }
     
     func fetchData() async {
-        print("A")
         let urlString: String = "https://api.dictionaryapi.dev/api/v2/entries/en/" + Word
-        // let urlString:String = "https://raw.githubusercontent.com/User-Howard/Howard-OJ/master/T.json"
 
-        print(urlString)
+        print("Fetching ... ", urlString)
         guard let url = URL(string: urlString) else {
             print("Invalid url.")
             return
@@ -77,12 +75,13 @@ struct ResultView: View {
         } catch {
             print("data isn't vaild")
         }
-        print("S", result)
+        print("Data", result)
     }
 }
+
 struct ResultView_Previews: PreviewProvider {
     static var previews: some View {
-        ResultView(Word: "hello")
+        ResultView(Word: "word")
             .previewDevice("iPhone 11")
     }
 }
@@ -131,6 +130,7 @@ struct IntroduuctionView: View {
 struct DetailsView: View {
     
     var PartOfSpeech: String
+    var Definitions: [Definition]
     
     
     var body: some View {
@@ -143,134 +143,28 @@ struct DetailsView: View {
                     Spacer()
                 }
                 .padding([.top, .horizontal])
-                Divider()
-                    .padding(.horizontal)
-                VStack {
-                    VStack {
-                        HStack {
-                            Text("A greeting (salutation) said when meeting someone or acknowledging someone’s arrival or presence.")
-                            // .font(.system(size: 16, design: .monospaced))
-                                .padding([.horizontal])
-                            Spacer()
-                        }
-                        Text("")
-                        HStack {
-                            Text("Hello, everyone.")
-                                .font(.system(size: 16, design: .default))
-                                .italic()
-                                .padding([.horizontal])
-                            Spacer()
-                        }
-                    }.padding(5)
+                ForEach(Definitions, id:\.definition) { definition in
                     Divider()
+                        .padding(.horizontal)
                     VStack {
                         HStack {
-                            Text("A greeting used when answering the telephone.")
-                            // .font(.system(size: 16, design: .monospaced))
+                            Text(definition.definition)
                                 .padding([.horizontal])
                             Spacer()
                         }
-                        Text("")
-                        HStack {
-                            Text("Hello? How may I help you?")
-                                .font(.system(size: 16, design: .default))
-                                .italic()
-                                .padding([.horizontal])
-                            Spacer()
-                        }
-                    }.padding(5)
-                    Divider()
-                    VStack {
-                        HStack {
-                            Text("A call for response if it is not clear if anyone is present or listening, or if a telephone conversation may have been disconnected.")
-                            // .font(.system(size: 16, design: .monospaced))
-                                .padding([.horizontal])
-                            Spacer()
-                        }
-                        Text("")
-                        HStack {
-                            Text("Hello? Is anyone there?")
-                                .font(.system(size: 16, design: .default))
-                                .italic()
-                                .padding([.horizontal])
-                            Spacer()
+                        if definition.example != nil {
+                            Text("")
+                            HStack {
+                                Text(definition.example!)
+                                    .font(.system(size: 16, design: .default))
+                                    .italic()
+                                    .padding([.horizontal])
+                                Spacer()
+                            }
                         }
                     }.padding(5)
                 }
-            }
-        }.cornerRadius(8)
-    }
-}
-
-struct DetailsFINALView: View {
-    
-    var Title_: String
-    
-    
-    var body: some View {
-        ZStack {
-            Color("ResultView.BackgroundColor")
-            VStack {
-                HStack {
-                    Label(Title_, systemImage: "sun.min.fill")
-                        .font(.system(size: 17, weight: .bold))
-                    Spacer()
-                }
-                .padding([.top, .horizontal])
-                Divider()
-                    .padding(.horizontal)
-                VStack {
-                    VStack {
-                        HStack {
-                            Text("A greeting (salutation) said when meeting someone or acknowledging someone’s arrival or presence.")
-                                // .font(.system(size: 16, design: .monospaced))
-                                .padding([.horizontal])
-                            Spacer()
-                        }
-                        Text("")
-                        HStack {
-                            Text("Hello, everyone.")
-                                .font(.system(size: 16, design: .default))
-                                .italic()
-                                .padding([.horizontal])
-                            Spacer()
-                        }
-                    }.padding(5)
-                    Divider()
-                    VStack {
-                        HStack {
-                            Text("A greeting used when answering the telephone.")
-                                // .font(.system(size: 16, design: .monospaced))
-                                .padding([.horizontal])
-                            Spacer()
-                        }
-                        Text("")
-                        HStack {
-                            Text("Hello? How may I help you?")
-                                .font(.system(size: 16, design: .default))
-                                .italic()
-                                .padding([.horizontal])
-                            Spacer()
-                        }
-                    }.padding(5)
-                    Divider()
-                    VStack {
-                        HStack {
-                            Text("A call for response if it is not clear if anyone is present or listening, or if a telephone conversation may have been disconnected.")
-                                // .font(.system(size: 16, design: .monospaced))
-                                .padding([.horizontal])
-                            Spacer()
-                        }
-                        Text("")
-                        HStack {
-                            Text("Hello? Is anyone there?")
-                                .font(.system(size: 16, design: .default))
-                                .italic()
-                                .padding([.horizontal])
-                            Spacer()
-                        }
-                    }.padding(5)
-                }
+                Text("")
             }
         }.cornerRadius(8)
     }
