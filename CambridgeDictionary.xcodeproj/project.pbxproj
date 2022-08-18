@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		892A956A28ACBA5F00EA7FF6 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892A956928ACBA5F00EA7FF6 /* DataManager.swift */; };
+		8980B613289FE9FB005E400B /* VolumeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8980B612289FE9FB005E400B /* VolumeObserver.swift */; };
 		89DBA5002884378200A26C96 /* CambridgeDictionaryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DBA4FF2884378200A26C96 /* CambridgeDictionaryApp.swift */; };
 		89DBA5022884378200A26C96 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DBA5012884378200A26C96 /* ContentView.swift */; };
 		89DBA5042884378400A26C96 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89DBA5032884378400A26C96 /* Assets.xcassets */; };
@@ -14,6 +16,9 @@
 		89DBA5112884378400A26C96 /* CambridgeDictionaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DBA5102884378400A26C96 /* CambridgeDictionaryTests.swift */; };
 		89DBA51B2884378400A26C96 /* CambridgeDictionaryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DBA51A2884378400A26C96 /* CambridgeDictionaryUITests.swift */; };
 		89DBA51D2884378400A26C96 /* CambridgeDictionaryUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DBA51C2884378400A26C96 /* CambridgeDictionaryUITestsLaunchTests.swift */; };
+		89DBA52A28843AA800A26C96 /* DictionaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DBA52928843AA800A26C96 /* DictionaryView.swift */; };
+		89DBA52C28843B0600A26C96 /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DBA52B28843B0600A26C96 /* CollectionView.swift */; };
+		89DBA52F288447B900A26C96 /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DBA52E288447B900A26C96 /* ResultView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		892A956928ACBA5F00EA7FF6 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		8980B612289FE9FB005E400B /* VolumeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeObserver.swift; sourceTree = "<group>"; };
 		89DBA4FC2884378200A26C96 /* CambridgeDictionary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CambridgeDictionary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89DBA4FF2884378200A26C96 /* CambridgeDictionaryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CambridgeDictionaryApp.swift; sourceTree = "<group>"; };
 		89DBA5012884378200A26C96 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -44,6 +51,9 @@
 		89DBA5162884378400A26C96 /* CambridgeDictionaryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CambridgeDictionaryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89DBA51A2884378400A26C96 /* CambridgeDictionaryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CambridgeDictionaryUITests.swift; sourceTree = "<group>"; };
 		89DBA51C2884378400A26C96 /* CambridgeDictionaryUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CambridgeDictionaryUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		89DBA52928843AA800A26C96 /* DictionaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryView.swift; sourceTree = "<group>"; };
+		89DBA52B28843B0600A26C96 /* CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
+		89DBA52E288447B900A26C96 /* ResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +81,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		892A956828ACBA2B00EA7FF6 /* Others */ = {
+			isa = PBXGroup;
+			children = (
+				8980B612289FE9FB005E400B /* VolumeObserver.swift */,
+				892A956928ACBA5F00EA7FF6 /* DataManager.swift */,
+			);
+			path = Others;
+			sourceTree = "<group>";
+		};
 		89DBA4F32884378200A26C96 = {
 			isa = PBXGroup;
 			children = (
@@ -96,6 +115,10 @@
 			children = (
 				89DBA4FF2884378200A26C96 /* CambridgeDictionaryApp.swift */,
 				89DBA5012884378200A26C96 /* ContentView.swift */,
+				89DBA52928843AA800A26C96 /* DictionaryView.swift */,
+				89DBA52B28843B0600A26C96 /* CollectionView.swift */,
+				89DBA52E288447B900A26C96 /* ResultView.swift */,
+				892A956828ACBA2B00EA7FF6 /* Others */,
 				89DBA5032884378400A26C96 /* Assets.xcassets */,
 				89DBA5052884378400A26C96 /* Preview Content */,
 			);
@@ -258,7 +281,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				89DBA5022884378200A26C96 /* ContentView.swift in Sources */,
+				89DBA52A28843AA800A26C96 /* DictionaryView.swift in Sources */,
+				89DBA52C28843B0600A26C96 /* CollectionView.swift in Sources */,
 				89DBA5002884378200A26C96 /* CambridgeDictionaryApp.swift in Sources */,
+				89DBA52F288447B900A26C96 /* ResultView.swift in Sources */,
+				892A956A28ACBA5F00EA7FF6 /* DataManager.swift in Sources */,
+				8980B613289FE9FB005E400B /* VolumeObserver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,6 +453,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -454,6 +483,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

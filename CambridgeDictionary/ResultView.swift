@@ -14,6 +14,8 @@ import MediaPlayer
 struct ResultView: View {
     
     @Environment(\.presentationMode) var presentationMode
+    @State private var result = Dat()
+    var Word: String
     
     
     var body: some View {
@@ -22,40 +24,65 @@ struct ResultView: View {
             ZStack {
                 // Color.green
                 VStack {
-                    IntroduuctionView()
+                    IntroduuctionView(Title: result.word, Phonetics: "dsf")
                         .padding([.top, .horizontal])
                     
                     ZStack{
                         // Color.blue
                         ScrollView {
                             VStack(alignment: .leading) {
-                                DetailsView(Title_: "Verb")
-                                DetailsView2(Title_: "Verb")
-                                
-                                DetailsView2(Title_: "Noun")
+                                DetailsView(PartOfSpeech: "Verb")
+                                DetailsFINALView(Title_: "Interjection")
+                                Spacer(minLength: 200)
                             }
                         }
                     }
                     .cornerRadius(8)
                     .padding(.horizontal)
+                    
+                }
+                .task {
+                    await fetchData()
                 }
             }.cornerRadius(15)
         }.edgesIgnoringSafeArea([.top, .bottom])
-        .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading:
-            Button(action: {
+            .navigationBarBackButtonHidden(true)
+            .navigationBarItems(leading:
+                                    Button(action: {
                 self.presentationMode.wrappedValue.dismiss()
             }, label: {
                 Image(systemName: "arrow.turn.up.left")
                     .foregroundColor(.secondary)
             })
-        )
+            )
+        
+    }
+    
+    func fetchData() async {
+        print("A")
+        let urlString: String = "https://api.dictionaryapi.dev/api/v2/entries/en/" + Word
+        // let urlString:String = "https://raw.githubusercontent.com/User-Howard/Howard-OJ/master/T.json"
+
+        print(urlString)
+        guard let url = URL(string: urlString) else {
+            print("Invalid url.")
+            return
+        }
+        
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            if let decodeResponse = try? JSONDecoder().decode([Dat].self, from: data) {
+                result = decodeResponse[0]
+            }
+        } catch {
+            print("data isn't vaild")
+        }
+        print("S", result)
     }
 }
-
 struct ResultView_Previews: PreviewProvider {
     static var previews: some View {
-        ResultView()
+        ResultView(Word: "hello")
             .previewDevice("iPhone 11")
     }
 }
@@ -63,67 +90,119 @@ struct ResultView_Previews: PreviewProvider {
 struct IntroduuctionView: View {
     
     @ObservedObject private var volObserver = VolumeObserver()
+    var Title: String
+    var Phonetics: String
     
     
     var body: some View {
-        GroupBox(label:
-            HStack {
-            Label("apple", systemImage: "building.columns")
-            Spacer()
-            
-            Button() {
-                let utterance = AVSpeechUtterance(string: "apple")
-                utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
-                let synthesizer = AVSpeechSynthesizer()
-                synthesizer.speak(utterance)
-            }label: {
-                Image(systemName: "speaker.wave.3.fill")
-                    .foregroundColor(Color.secondary)
-                /*
-                if #available(iOS 16.0, *) {
-                    Image(systemName: "speaker.wave.3.fill", variableValue: Double(volObserver.volume))
-                        .foregroundColor(Color.secondary)
-                } else {
-                    Image(systemName: "speaker.wave.3.fill")
-                        .foregroundColor(Color.secondary)
-                }*/
-            }
-        }
-        ) {
+        ZStack {
+            Color("ResultView.BackgroundColor")
             VStack {
-                Text("")
-                Spacer()
+                HStack {
+                    Text(Title)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.3)
+                        .font(.system(size: 30, weight: .bold, design: .default))
+                    Spacer()
+                }
+                .padding(.bottom, 1)
+                HStack {
+                    Text(Phonetics)
+                        .font(.system(size: 16, weight: .regular, design: .monospaced))
+                        .foregroundColor(.secondary)
+                    Button() {
+                        let utterance = AVSpeechUtterance(string: Title)
+                        utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
+                        let synthesizer = AVSpeechSynthesizer()
+                        synthesizer.speak(utterance)
+                    }label: {
+                        Image(systemName: "speaker.wave.3.fill")
+                            .foregroundColor(Color.secondary)
+                    }
+                    Spacer()
+                }
             }
-            .frame(minWidth: 0, idealWidth: 100, maxWidth: .infinity, minHeight: 0, idealHeight: 20, maxHeight: 20, alignment: .leading)
-            
-        }
+            .padding(.horizontal)
+        }.frame(minWidth: 0, idealWidth: 100, maxWidth: .infinity, minHeight: 0, idealHeight: 20, maxHeight: 90, alignment: .leading)
+            .cornerRadius(8)
     }
 }
 
 struct DetailsView: View {
     
-    var Title_: String
+    var PartOfSpeech: String
     
     
     var body: some View {
-        GroupBox(label:
-            Label(Title_, systemImage: "sun.min.fill")
-        ) {
+        ZStack {
+            Color("ResultView.BackgroundColor")
             VStack {
-                Color.pink
-                    .frame(height: 1)
-                Divider()
-                VStack {
-                    Text("A common, round fruit produced by the tree Malus domestica, cultivated in temperate climates.")
+                HStack {
+                    Label(PartOfSpeech, systemImage: "sun.min.fill")
+                        .font(.system(size: 17, weight: .bold))
+                    Spacer()
                 }
-
-            }.padding(1)
-            
-        }
+                .padding([.top, .horizontal])
+                Divider()
+                    .padding(.horizontal)
+                VStack {
+                    VStack {
+                        HStack {
+                            Text("A greeting (salutation) said when meeting someone or acknowledging someone’s arrival or presence.")
+                            // .font(.system(size: 16, design: .monospaced))
+                                .padding([.horizontal])
+                            Spacer()
+                        }
+                        Text("")
+                        HStack {
+                            Text("Hello, everyone.")
+                                .font(.system(size: 16, design: .default))
+                                .italic()
+                                .padding([.horizontal])
+                            Spacer()
+                        }
+                    }.padding(5)
+                    Divider()
+                    VStack {
+                        HStack {
+                            Text("A greeting used when answering the telephone.")
+                            // .font(.system(size: 16, design: .monospaced))
+                                .padding([.horizontal])
+                            Spacer()
+                        }
+                        Text("")
+                        HStack {
+                            Text("Hello? How may I help you?")
+                                .font(.system(size: 16, design: .default))
+                                .italic()
+                                .padding([.horizontal])
+                            Spacer()
+                        }
+                    }.padding(5)
+                    Divider()
+                    VStack {
+                        HStack {
+                            Text("A call for response if it is not clear if anyone is present or listening, or if a telephone conversation may have been disconnected.")
+                            // .font(.system(size: 16, design: .monospaced))
+                                .padding([.horizontal])
+                            Spacer()
+                        }
+                        Text("")
+                        HStack {
+                            Text("Hello? Is anyone there?")
+                                .font(.system(size: 16, design: .default))
+                                .italic()
+                                .padding([.horizontal])
+                            Spacer()
+                        }
+                    }.padding(5)
+                }
+            }
+        }.cornerRadius(8)
     }
 }
 
-struct DetailsView2: View {
+struct DetailsFINALView: View {
     
     var Title_: String
     
@@ -141,18 +220,56 @@ struct DetailsView2: View {
                 Divider()
                     .padding(.horizontal)
                 VStack {
-                    ZStack {
-                        Text("Any of various tree-borne fruits or vegetables especially considered as resembling an apple; also (with qualifying words) used to form the names of other specific fruits such as custard apple, rose apple, thorn apple etc.")
-                            .padding([.horizontal], 10)
-                    }
-                    .padding(5)
+                    VStack {
+                        HStack {
+                            Text("A greeting (salutation) said when meeting someone or acknowledging someone’s arrival or presence.")
+                                // .font(.system(size: 16, design: .monospaced))
+                                .padding([.horizontal])
+                            Spacer()
+                        }
+                        Text("")
+                        HStack {
+                            Text("Hello, everyone.")
+                                .font(.system(size: 16, design: .default))
+                                .italic()
+                                .padding([.horizontal])
+                            Spacer()
+                        }
+                    }.padding(5)
                     Divider()
-                        .padding(.horizontal)
-                    ZStack {
-                        Text("Any of various tree-borne fruits or vegetables especially considered as resembling an apple; also (with qualifying words) used to form the names of other specific fruits such as custard apple, rose apple, thorn apple etc.")
-                            .padding([.horizontal], 10)
-                    }
-                    .padding(5)
+                    VStack {
+                        HStack {
+                            Text("A greeting used when answering the telephone.")
+                                // .font(.system(size: 16, design: .monospaced))
+                                .padding([.horizontal])
+                            Spacer()
+                        }
+                        Text("")
+                        HStack {
+                            Text("Hello? How may I help you?")
+                                .font(.system(size: 16, design: .default))
+                                .italic()
+                                .padding([.horizontal])
+                            Spacer()
+                        }
+                    }.padding(5)
+                    Divider()
+                    VStack {
+                        HStack {
+                            Text("A call for response if it is not clear if anyone is present or listening, or if a telephone conversation may have been disconnected.")
+                                // .font(.system(size: 16, design: .monospaced))
+                                .padding([.horizontal])
+                            Spacer()
+                        }
+                        Text("")
+                        HStack {
+                            Text("Hello? Is anyone there?")
+                                .font(.system(size: 16, design: .default))
+                                .italic()
+                                .padding([.horizontal])
+                            Spacer()
+                        }
+                    }.padding(5)
                 }
             }
         }.cornerRadius(8)
