@@ -21,7 +21,7 @@ struct Dat: Codable {
     var sourceUrls: [String]
     init() {
         word = "---"
-        phonetics = []
+        phonetics = [Phonetic()]
         meanings = [Meaning()]
         license = License()
         sourceUrls = []
@@ -69,12 +69,18 @@ struct Phonetic: Codable {
     let audio: String
     let sourceURL: String?
     let license: License?
-    let text: String = ""
-
+    let text: String?
+    
     enum CodingKeys: String, CodingKey {
         case audio
         case sourceURL = "sourceUrl"
         case license, text
+    }
+    init() {
+        audio = ""
+        sourceURL = ""
+        license = nil
+        text = ""
     }
 }
 

@@ -15,36 +15,39 @@ struct ResultView: View {
     
     @Environment(\.presentationMode) var presentationMode
     @State private var result = Dat()
-    var Word: String
+    @State var Word: String = "apple"
     
     
     var body: some View {
         VStack {
             Spacer(minLength: 80)
-            ZStack {
-                // Color.green
-                VStack {
-                    IntroduuctionView(Title: result.word, Phonetics: "result.phonetics.text")
+            VStack {
+                ZStack {
+                    IntroduuctionView(Title: result.word, Phonetics: result.phonetics)
                         .padding([.top, .horizontal])
-                    
-                    ZStack{
-                        // Color.blue
-                        ScrollView {
-                            ForEach(result.meanings, id: \.partOfSpeech) { meaning in
-                                DetailsView(PartOfSpeech: meaning.partOfSpeech, Definitions: meaning.definitions)
-                            }
-                            
-                            Spacer(minLength: 200)
+                    VStack {
+                        TextField("apple", text: $Word, onCommit: fetchData)
+                            .font(.system(size: 30, weight: .bold, design: .default))
+                            .padding()
+                        Spacer()
+                    }.frame(minWidth: 0, idealWidth: 100, maxWidth: .infinity, minHeight: 0, idealHeight: 20, maxHeight: 90, alignment: .leading)
+                        .padding()
+                }
+                
+                ZStack{
+                    // Color.blue
+                    ScrollView {
+                        ForEach(result.meanings, id: \.partOfSpeech) { meaning in
+                            DetailsView(PartOfSpeech: meaning.partOfSpeech, Definitions: meaning.definitions)
                         }
+                        Spacer(minLength: 200)
                     }
-                    .cornerRadius(8)
-                    .padding(.horizontal)
-                    
                 }
-                .task {
-                    await fetchData()
-                }
-            }.cornerRadius(15)
+                .cornerRadius(8)
+                .padding(.horizontal)
+                
+            }
+            
         }.edgesIgnoringSafeArea([.top, .bottom])
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(leading:
@@ -58,7 +61,7 @@ struct ResultView: View {
         
     }
     
-    func fetchData() async {
+    func fetchData() {
         let urlString: String = "https://api.dictionaryapi.dev/api/v2/entries/en/" + Word
 
         print("Fetching ... ", urlString)
@@ -66,16 +69,19 @@ struct ResultView: View {
             print("Invalid url.")
             return
         }
-        
-        do {
-            let (data, _) = try await URLSession.shared.data(from: url)
-            if let decodeResponse = try? JSONDecoder().decode([Dat].self, from: data) {
-                result = decodeResponse[0]
+        URLSession.shared.dataTask(with: url) { data, _, error in
+            DispatchQueue.main.async {
+                if let data = data {
+                    do {
+                        let decoder = JSONDecoder()
+                        let decodedData = try decoder.decode([Dat].self, from: data)
+                        self.result = decodedData[0]
+                    } catch {
+                        print(error)
+                    }
+                }
             }
-        } catch {
-            print("data isn't vaild")
-        }
-        print("Data", result)
+        }.resume()
     }
 }
 
@@ -88,25 +94,18 @@ struct ResultView_Previews: PreviewProvider {
 
 struct IntroduuctionView: View {
     
-    @ObservedObject private var volObserver = VolumeObserver()
     var Title: String
-    var Phonetics: String
+    var Phonetics: [Phonetic]
+    @State private var astr = ""
     
     
     var body: some View {
         ZStack {
             Color("ResultView.BackgroundColor")
             VStack {
+                Spacer()
                 HStack {
-                    Text(Title)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.3)
-                        .font(.system(size: 30, weight: .bold, design: .default))
-                    Spacer()
-                }
-                .padding(.bottom, 1)
-                HStack {
-                    Text(Phonetics)
+                    Text(Phonetics[0].text!)
                         .font(.system(size: 16, weight: .regular, design: .monospaced))
                         .foregroundColor(.secondary)
                     Button() {
@@ -121,7 +120,7 @@ struct IntroduuctionView: View {
                     Spacer()
                 }
             }
-            .padding(.horizontal)
+            .padding()
         }.frame(minWidth: 0, idealWidth: 100, maxWidth: .infinity, minHeight: 0, idealHeight: 20, maxHeight: 90, alignment: .leading)
             .cornerRadius(8)
     }

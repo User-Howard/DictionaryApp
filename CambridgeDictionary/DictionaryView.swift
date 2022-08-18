@@ -11,6 +11,9 @@ import AVFoundation
 
 struct DictionaryView: View {
     
+    @State private var astr = ""
+    
+    
     var body: some View {
         VStack {
             Spacer(minLength: 40)

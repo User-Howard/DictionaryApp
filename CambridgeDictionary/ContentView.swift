@@ -13,7 +13,8 @@ struct ContentView: View {
     
     
     var body: some View {
-        
+        ResultView()
+        /*
         NavigationView {
             TabView(selection: $selection) {
                 DictionaryView()
@@ -28,6 +29,7 @@ struct ContentView: View {
                     .tag(1)
             }
         }.navigationBarTitleDisplayMode(.inline)
+         */
     }
     
 }
