@@ -13,20 +13,21 @@ import MediaPlayer
 
 struct ResultView: View {
     
+    
     @Environment(\.presentationMode) var presentationMode
     @State private var result = Dat()
-    @State var Word: String = "apple"
-    
+    @State var Word: String = ""
+    @State var showed: Bool = false
     
     var body: some View {
         VStack {
-            Spacer(minLength: 80)
+            Spacer(minLength: 40) // 80
             VStack {
                 ZStack {
                     IntroduuctionView(Title: result.word, Phonetics: result.phonetics)
                         .padding([.top, .horizontal])
                     VStack {
-                        TextField("apple", text: $Word, onCommit: fetchData)
+                        TextField("Type a word", text: $Word, onEditingChanged: getFocus, onCommit: fetchData)
                             .font(.system(size: 30, weight: .bold, design: .default))
                             .padding()
                         Spacer()
@@ -36,12 +37,14 @@ struct ResultView: View {
                 
                 ZStack{
                     // Color.blue
-                    ScrollView {
+                    ScrollView(showsIndicators: false) {
                         ForEach(result.meanings, id: \.partOfSpeech) { meaning in
                             DetailsView(PartOfSpeech: meaning.partOfSpeech, Definitions: meaning.definitions)
+
                         }
-                        Spacer(minLength: 200)
-                    }
+                        Spacer(minLength: 100)
+                    }.offset(y: showed ? 0 : 700)
+                        .animation(.easeIn, value: showed)
                 }
                 .cornerRadius(8)
                 .padding(.horizontal)
@@ -60,11 +63,15 @@ struct ResultView: View {
             )
         
     }
-    
+    func getFocus(focused:Bool) {
+        if focused {
+            showed = false
+        }
+    }
     func fetchData() {
-        let urlString: String = "https://api.dictionaryapi.dev/api/v2/entries/en/" + Word
+        let urlString: String = "https://api.dictionaryapi.dev/api/v2/entries/en/" + Word.trimmingCharacters(in: .whitespaces)
 
-        print("Fetching ... ", urlString)
+        print("Fetch ... ", urlString)
         guard let url = URL(string: urlString) else {
             print("Invalid url.")
             return
@@ -81,13 +88,14 @@ struct ResultView: View {
                     }
                 }
             }
+            showed = true
         }.resume()
     }
 }
 
 struct ResultView_Previews: PreviewProvider {
     static var previews: some View {
-        ResultView(Word: "word")
+        ResultView()
             .previewDevice("iPhone 11")
     }
 }
@@ -105,19 +113,21 @@ struct IntroduuctionView: View {
             VStack {
                 Spacer()
                 HStack {
-                    Text(Phonetics[0].text!)
-                        .font(.system(size: 16, weight: .regular, design: .monospaced))
-                        .foregroundColor(.secondary)
-                    Button() {
-                        let utterance = AVSpeechUtterance(string: Title)
-                        utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
-                        let synthesizer = AVSpeechSynthesizer()
-                        synthesizer.speak(utterance)
-                    }label: {
-                        Image(systemName: "speaker.wave.3.fill")
-                            .foregroundColor(Color.secondary)
+                    if Phonetics.count > 0 && Phonetics[0].text != "" && Phonetics[0].text != nil {
+                        Text(Phonetics[0].text!)
+                            .font(.system(size: 16, weight: .regular, design: .monospaced))
+                            .foregroundColor(.secondary)
+                        Button() {
+                            let utterance = AVSpeechUtterance(string: Title)
+                            utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
+                            let synthesizer = AVSpeechSynthesizer()
+                            synthesizer.speak(utterance)
+                        }label: {
+                            Image(systemName: "speaker.wave.3.fill")
+                                .foregroundColor(Color.secondary)
+                        }
+                        Spacer()
                     }
-                    Spacer()
                 }
             }
             .padding()
@@ -131,7 +141,6 @@ struct DetailsView: View {
     var PartOfSpeech: String
     var Definitions: [Definition]
     
-    
     var body: some View {
         ZStack {
             Color("ResultView.BackgroundColor")
@@ -144,7 +153,7 @@ struct DetailsView: View {
                 .padding([.top, .horizontal])
                 ForEach(Definitions, id:\.definition) { definition in
                     Divider()
-                        .padding(.horizontal)
+                        .padding(.horizontal, 5)
                     VStack {
                         HStack {
                             Text(definition.definition)
@@ -168,3 +177,5 @@ struct DetailsView: View {
         }.cornerRadius(8)
     }
 }
+
+

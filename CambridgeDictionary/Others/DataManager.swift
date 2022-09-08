@@ -22,7 +22,7 @@ struct Dat: Codable {
     init() {
         word = "---"
         phonetics = [Phonetic()]
-        meanings = [Meaning()]
+        meanings = []
         license = License()
         sourceUrls = []
     }
@@ -45,7 +45,7 @@ struct Meaning: Codable {
     let synonyms, antonyms: [String]
     init() {
         partOfSpeech = "-"
-        definitions = [Definition()]
+        definitions = []
         synonyms = []
         antonyms = []
     }

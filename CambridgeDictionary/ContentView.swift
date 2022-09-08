@@ -14,24 +14,7 @@ struct ContentView: View {
     
     var body: some View {
         ResultView()
-        /*
-        NavigationView {
-            TabView(selection: $selection) {
-                DictionaryView()
-                    .tabItem{
-                        Image(systemName: "doc.richtext.fill")
-                    }
-                    .tag(0)
-                CollectionView()
-                    .tabItem{
-                        Image(systemName: "bookmark.fill")
-                    }
-                    .tag(1)
-            }
-        }.navigationBarTitleDisplayMode(.inline)
-         */
     }
-    
 }
 
 struct ContentView_Previews: PreviewProvider {
