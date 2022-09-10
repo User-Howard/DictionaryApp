@@ -9,21 +9,14 @@ import SwiftUI
 
 
 struct CollectionView: View {
+    
     var body: some View {
         VStack {
-            Spacer(minLength: 40)
-            ZStack {
-                // Color.accentColor
-                NavigationLink {
-                    ResultView()
-                }label: {
-                    VStack {
-                        Text("2")
-                            .font(.title)
-                    }
-                }
-            }
-            Spacer(minLength: 1)
+            Spacer(minLength: 80)
+            List {
+                Text("A")
+                Text("B")
+            }.cornerRadius(8)
         }.edgesIgnoringSafeArea([.top])
 
     }

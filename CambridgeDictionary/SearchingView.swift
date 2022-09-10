@@ -11,30 +11,32 @@ import MediaPlayer
 
 
 
-struct ResultView: View {
+struct SearchingView: View {
     
     
     @Environment(\.presentationMode) var presentationMode
     @State private var result = Dat()
     @State var Word: String = ""
     @State var showed: Bool = false
+    @State var ErrorMessage: String = ""
     
     var body: some View {
         VStack {
-            Spacer(minLength: 40) // 80
+            Spacer(minLength: 70) // 40
             VStack {
                 ZStack {
-                    IntroduuctionView(Title: result.word, Phonetics: result.phonetics)
+                    IntroduuctionView(Title: result.word, Phonetics: result.phonetics, Showed: showed, ErrorMessage: ErrorMessage)
                         .padding([.top, .horizontal])
                     VStack {
-                        TextField("Type a word", text: $Word, onEditingChanged: getFocus, onCommit: fetchData)
-                            .font(.system(size: 30, weight: .bold, design: .default))
-                            .padding()
+                        HStack {
+                            TextField("Type a word", text: $Word, onEditingChanged: getFocus, onCommit: fetchData)
+                                .font(.system(size: 30, weight: .bold, design: .default))
+                                .padding()
+                        }
                         Spacer()
-                    }.frame(minWidth: 0, idealWidth: 100, maxWidth: .infinity, minHeight: 0, idealHeight: 20, maxHeight: 90, alignment: .leading)
+                    }.frame(width: .infinity, height: 70)
                         .padding()
                 }
-                
                 ZStack{
                     // Color.blue
                     ScrollView(showsIndicators: false) {
@@ -44,12 +46,13 @@ struct ResultView: View {
                         }
                         Spacer(minLength: 100)
                     }.offset(y: showed ? 0 : 700)
+                        .opacity(showed ? 1 : 0)
+                        .scaleEffect(showed ? 1 : 0.7)
                         .animation(.easeIn, value: showed)
                 }
                 .cornerRadius(8)
                 .padding(.horizontal)
-                
-            }
+            }.onAppear(perform: fetchData)
             
         }.edgesIgnoringSafeArea([.top, .bottom])
             .navigationBarBackButtonHidden(true)
@@ -74,6 +77,7 @@ struct ResultView: View {
         print("Fetch ... ", urlString)
         guard let url = URL(string: urlString) else {
             print("Invalid url.")
+            ErrorMessage = "Invalid Word"
             return
         }
         URLSession.shared.dataTask(with: url) { data, _, error in
@@ -88,6 +92,7 @@ struct ResultView: View {
                     }
                 }
             }
+            ErrorMessage = ""
             showed = true
         }.resume()
     }
@@ -95,7 +100,7 @@ struct ResultView: View {
 
 struct ResultView_Previews: PreviewProvider {
     static var previews: some View {
-        ResultView()
+        SearchingView()
             .previewDevice("iPhone 11")
     }
 }
@@ -104,7 +109,13 @@ struct IntroduuctionView: View {
     
     var Title: String
     var Phonetics: [Phonetic]
-    @State private var astr = ""
+    var Showed: Bool
+    var ErrorMessage: String
+    @State private var astr: String = ""
+    
+    
+    
+    @State var d :Bool = true
     
     
     var body: some View {
@@ -127,10 +138,28 @@ struct IntroduuctionView: View {
                                 .foregroundColor(Color.secondary)
                         }
                         Spacer()
+                        Image(systemName: d ? "bookmark" : "bookmark.fill")
+                            .onTapGesture {
+                                d.toggle()
+                            }
                     }
                 }
             }
             .padding()
+            VStack {
+                HStack {
+                    Spacer()
+                    Text(ErrorMessage)
+                        .font(.system(size: 10, design: .monospaced))
+                        .animation(.easeOut, value: ErrorMessage)
+                    Circle()
+                        .foregroundColor(Showed ? .green : .red)
+                        .animation(.easeOut, value: Showed)
+                        .frame(width: 5, height: 5)
+                        .padding(3)
+                }
+                Spacer()
+            }
         }.frame(minWidth: 0, idealWidth: 100, maxWidth: .infinity, minHeight: 0, idealHeight: 20, maxHeight: 90, alignment: .leading)
             .cornerRadius(8)
     }
