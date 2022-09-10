@@ -14,12 +14,16 @@ struct ContentView: View {
     
     var body: some View{
         ZStack {
-            SearchingView()
-                .offset(x: selection==0 ? 0 : -UIScreen.main.bounds.width)
-                .animation(.default.speed(1.2), value: selection)
-            CollectionView()
-                .offset(x: selection==0 ? UIScreen.main.bounds.width : 0)
-                .animation(.default.speed(1.2), value: selection)
+            VStack {
+                Spacer(minLength: 40)
+                TabView(selection: $selection) {
+                    SearchingView()
+                        .tag(0)
+                    CollectionView()
+                        .tag(1)
+                }
+                .tabViewStyle(.page(indexDisplayMode: .never))
+            }
             VStack {
                 Picker("Nav", selection: $selection) {
                     Text("查詢").tag(0)

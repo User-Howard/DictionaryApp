@@ -19,29 +19,42 @@ struct SearchingView: View {
     @State var Word: String = ""
     @State var showed: Bool = false
     @State var ErrorMessage: String = ""
+    var StaticMode: Bool = false
+    
     
     var body: some View {
         VStack {
-            Spacer(minLength: 70) // 40
+            // Spacer(minLength: 70) // 40
             VStack {
                 ZStack {
-                    IntroduuctionView(Title: result.word, Phonetics: result.phonetics, Showed: showed, ErrorMessage: ErrorMessage)
-                        .padding([.top, .horizontal])
+                    IntroduuctionView(Title: result.word, Phonetics: result.phonetics, Showed: showed, ErrorMessage: ErrorMessage, StaticMode: StaticMode)
+                        .padding(.horizontal)
                     VStack {
                         HStack {
-                            TextField("Type a word", text: $Word, onEditingChanged: getFocus, onCommit: fetchData)
-                                .font(.system(size: 30, weight: .bold, design: .default))
-                                .padding()
+                            if StaticMode {
+                                Text(Word.capitalized)
+                                    .font(.system(size: 35, weight: .bold, design: .default))
+                                    .padding()
+                                    .shadow(radius: 0.2)
+                            }
+                            else {
+                                TextField("Type a word", text: $Word, onEditingChanged: getFocus, onCommit: fetchData)
+                                    .font(.system(size: 30, weight: .bold, design: .default))
+                                    .padding()
+                                    .shadow(radius: 0.2)
+                            }
+                            
                         }
                         Spacer()
-                    }.frame(width: .infinity, height: 70)
-                        .padding()
+                    }.frame(width: .infinity, height: 60)
+                        .offset(y: -10)
+                        .padding(.horizontal)
                 }
                 ZStack{
                     // Color.blue
                     ScrollView(showsIndicators: false) {
                         ForEach(result.meanings, id: \.partOfSpeech) { meaning in
-                            DetailsView(PartOfSpeech: meaning.partOfSpeech, Definitions: meaning.definitions)
+                            DetailsView(PartOfSpeech: meaning.partOfSpeech, Definitions: meaning.definitions, StaticMode: StaticMode)
 
                         }
                         Spacer(minLength: 100)
@@ -77,7 +90,8 @@ struct SearchingView: View {
         print("Fetch ... ", urlString)
         guard let url = URL(string: urlString) else {
             print("Invalid url.")
-            ErrorMessage = "Invalid Word"
+            showed = false
+            ErrorMessage = "Invalid Words"
             return
         }
         URLSession.shared.dataTask(with: url) { data, _, error in
@@ -89,11 +103,14 @@ struct SearchingView: View {
                         self.result = decodedData[0]
                     } catch {
                         print(error)
+                        showed = false
+                        ErrorMessage = "Invalid Word"
+                        return
                     }
                 }
             }
-            ErrorMessage = ""
             showed = true
+            ErrorMessage = ""
         }.resume()
     }
 }
@@ -111,6 +128,7 @@ struct IntroduuctionView: View {
     var Phonetics: [Phonetic]
     var Showed: Bool
     var ErrorMessage: String
+    let StaticMode: Bool
     @State private var astr: String = ""
     
     
@@ -120,7 +138,9 @@ struct IntroduuctionView: View {
     
     var body: some View {
         ZStack {
-            Color("ResultView.BackgroundColor")
+            if !StaticMode {
+                Color("ResultView.BackgroundColor")
+            }
             VStack {
                 Spacer()
                 HStack {
@@ -138,7 +158,8 @@ struct IntroduuctionView: View {
                                 .foregroundColor(Color.secondary)
                         }
                         Spacer()
-                        Image(systemName: d ? "bookmark" : "bookmark.fill")
+                        Image(systemName: d ? "bookmark.fill" : "bookmark")
+                            .animation(.default, value: d)
                             .onTapGesture {
                                 d.toggle()
                             }
@@ -169,13 +190,16 @@ struct DetailsView: View {
     
     var PartOfSpeech: String
     var Definitions: [Definition]
+    let StaticMode: Bool
     
     var body: some View {
         ZStack {
-            Color("ResultView.BackgroundColor")
+            if !StaticMode {
+                Color("ResultView.BackgroundColor")
+            }
             VStack {
                 HStack {
-                    Label(PartOfSpeech, systemImage: "sun.min.fill")
+                    Label(PartOfSpeech.capitalized, systemImage: "sun.min.fill")
                         .font(.system(size: 17, weight: .bold))
                     Spacer()
                 }
