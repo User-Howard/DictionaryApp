@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		892A956A28ACBA5F00EA7FF6 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892A956928ACBA5F00EA7FF6 /* DataManager.swift */; };
 		8980B613289FE9FB005E400B /* VolumeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8980B612289FE9FB005E400B /* VolumeObserver.swift */; };
+		89B04B732922204000F72DAA /* CollectionsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B04B722922204000F72DAA /* CollectionsStore.swift */; };
+		89BC092428CD00F600D26872 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89BC092328CD00F600D26872 /* Launch Screen.storyboard */; };
 		89DBA5002884378200A26C96 /* CambridgeDictionaryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DBA4FF2884378200A26C96 /* CambridgeDictionaryApp.swift */; };
 		89DBA5022884378200A26C96 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DBA5012884378200A26C96 /* ContentView.swift */; };
 		89DBA5042884378400A26C96 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89DBA5032884378400A26C96 /* Assets.xcassets */; };
@@ -41,6 +43,8 @@
 		892A956928ACBA5F00EA7FF6 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		89510F8328CAF06500639A18 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8980B612289FE9FB005E400B /* VolumeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeObserver.swift; sourceTree = "<group>"; };
+		89B04B722922204000F72DAA /* CollectionsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionsStore.swift; sourceTree = "<group>"; };
+		89BC092328CD00F600D26872 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		89DBA4FC2884378200A26C96 /* CambridgeDictionary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CambridgeDictionary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89DBA4FF2884378200A26C96 /* CambridgeDictionaryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CambridgeDictionaryApp.swift; sourceTree = "<group>"; };
 		89DBA5012884378200A26C96 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -113,9 +117,11 @@
 			isa = PBXGroup;
 			children = (
 				89510F8328CAF06500639A18 /* Info.plist */,
+				89BC092328CD00F600D26872 /* Launch Screen.storyboard */,
 				89DBA4FF2884378200A26C96 /* CambridgeDictionaryApp.swift */,
 				89DBA5012884378200A26C96 /* ContentView.swift */,
 				89DBA52B28843B0600A26C96 /* CollectionView.swift */,
+				89B04B722922204000F72DAA /* CollectionsStore.swift */,
 				89DBA52E288447B900A26C96 /* SearchingView.swift */,
 				892A956828ACBA2B00EA7FF6 /* Others */,
 				89DBA5032884378400A26C96 /* Assets.xcassets */,
@@ -253,6 +259,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89BC092428CD00F600D26872 /* Launch Screen.storyboard in Resources */,
 				89DBA5072884378400A26C96 /* Preview Assets.xcassets in Resources */,
 				89DBA5042884378400A26C96 /* Assets.xcassets in Resources */,
 			);
@@ -279,6 +286,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89B04B732922204000F72DAA /* CollectionsStore.swift in Sources */,
 				89DBA5022884378200A26C96 /* ContentView.swift in Sources */,
 				89DBA52C28843B0600A26C96 /* CollectionView.swift in Sources */,
 				89DBA5002884378200A26C96 /* CambridgeDictionaryApp.swift in Sources */,

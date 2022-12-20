@@ -28,7 +28,6 @@ struct SearchingView: View {
             VStack {
                 ZStack {
                     IntroduuctionView(Title: result.word, Phonetics: result.phonetics, Showed: showed, ErrorMessage: ErrorMessage, StaticMode: StaticMode)
-                        .padding(.horizontal)
                     VStack {
                         HStack {
                             if StaticMode {
@@ -39,6 +38,7 @@ struct SearchingView: View {
                             }
                             else {
                                 TextField("Type a word", text: $Word, onEditingChanged: getFocus, onCommit: fetchData)
+                                    .keyboardType(.asciiCapable)
                                     .font(.system(size: 30, weight: .bold, design: .default))
                                     .padding()
                                     .shadow(radius: 0.2)
@@ -46,37 +46,40 @@ struct SearchingView: View {
                             
                         }
                         Spacer()
-                    }.frame(width: .infinity, height: 60)
-                        .offset(y: -10)
-                        .padding(.horizontal)
+                    }
+                    .frame(height: 60)
+                    .offset(y: -10)
                 }
-                ZStack{
-                    // Color.blue
-                    ScrollView(showsIndicators: false) {
-                        ForEach(result.meanings, id: \.partOfSpeech) { meaning in
+                ScrollView(showsIndicators: false) {
+                    ForEach(result.meanings, id: \.partOfSpeech) { meaning in
+                        ZStack {
                             DetailsView(PartOfSpeech: meaning.partOfSpeech, Definitions: meaning.definitions, StaticMode: StaticMode)
-
+                                .coordinateSpace(name: meaning.partOfSpeech)
+                            GeometryReader { geo in
+                                Rectangle()
+                                    .foregroundColor(Color("BS"))
+                                    .frame(height: 500)
+                                    .opacity(geo.frame(in: .named(meaning.partOfSpeech)).minY < 800 ? 0 : 1)
+                                    .animation(.easeOut.speed(2), value: geo.frame(in: .named(meaning.partOfSpeech)).minY)
+                                
+                            }
                         }
-                        Spacer(minLength: 100)
-                    }.offset(y: showed ? 0 : 700)
-                        .opacity(showed ? 1 : 0)
-                        .scaleEffect(showed ? 1 : 0.7)
-                        .animation(.easeIn, value: showed)
+                        Spacer()
+                    }
+                    Spacer(minLength: 300)
+                    
                 }
+                .offset(y: showed ? 0 : 700)
+                .opacity(showed ? 1 : 0)
+                .scaleEffect(showed ? 1 : 0.3)
+                .animation(.spring().speed(1), value: showed)
                 .cornerRadius(8)
-                .padding(.horizontal)
-            }.onAppear(perform: fetchData)
-            
-        }.edgesIgnoringSafeArea([.top, .bottom])
-            .navigationBarBackButtonHidden(true)
-            .navigationBarItems(leading:
-                                    Button(action: {
-                self.presentationMode.wrappedValue.dismiss()
-            }, label: {
-                Image(systemName: "arrow.turn.up.left")
-                    .foregroundColor(.secondary)
-            })
-            )
+                
+            }
+            .onAppear(perform: fetchData)
+            .padding(.horizontal)
+        }
+        .edgesIgnoringSafeArea(.bottom)
         
     }
     func getFocus(focused:Bool) {
@@ -109,6 +112,7 @@ struct SearchingView: View {
                     }
                 }
             }
+            
             showed = true
             ErrorMessage = ""
         }.resume()
@@ -117,13 +121,13 @@ struct SearchingView: View {
 
 struct ResultView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchingView()
-            .previewDevice("iPhone 11")
+        SearchingView(Word: "Apple")
+            .previewDevice("iPhone 14 Pro Max")
     }
 }
 
 struct IntroduuctionView: View {
-    
+    @Environment(\.presentationMode) var presentationMode
     var Title: String
     var Phonetics: [Phonetic]
     var Showed: Bool
@@ -193,6 +197,7 @@ struct DetailsView: View {
     let StaticMode: Bool
     
     var body: some View {
+        
         ZStack {
             if !StaticMode {
                 Color("ResultView.BackgroundColor")
@@ -204,31 +209,43 @@ struct DetailsView: View {
                     Spacer()
                 }
                 .padding([.top, .horizontal])
-                ForEach(Definitions, id:\.definition) { definition in
-                    Divider()
-                        .padding(.horizontal, 5)
+                
+                Divider()
+                
+                ZStack {
                     VStack {
-                        HStack {
-                            Text(definition.definition)
-                                .padding([.horizontal])
-                            Spacer()
-                        }
-                        if definition.example != nil {
-                            Text("")
-                            HStack {
-                                Text(definition.example!)
-                                    .font(.system(size: 16, design: .default))
-                                    .italic()
-                                    .padding([.horizontal])
-                                Spacer()
+                        let enumerated = Array(zip(Definitions.indices, Definitions))
+                        ForEach(enumerated, id:\.0) { index, definition in
+                            if index != 0 {
+                                Divider()
+                                    .padding(.horizontal)
                             }
+                            VStack(alignment: .leading) {
+                                HStack {
+                                    Text(definition.definition)
+                                        .padding([.horizontal])
+                                    Spacer()
+                                }
+                                if definition.example != nil {
+                                    Text("")
+                                    HStack {
+                                        Text(definition.example!)
+                                            .font(.system(size: 16, design: .default))
+                                            .italic()
+                                            .padding([.horizontal])
+                                        Spacer()
+                                    }
+                                }
+                            }.padding(5)
+                            
+                            Text("")
                         }
-                    }.padding(5)
+                    }
+
                 }
-                Text("")
             }
+
         }.cornerRadius(8)
+        
     }
 }
-
-
