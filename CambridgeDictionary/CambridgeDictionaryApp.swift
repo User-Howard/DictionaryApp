@@ -1,6 +1,6 @@
 //
-//  CambridgeDictionaryApp.swift
-//  CambridgeDictionary
+//  AppEntry.swift
+//  AppEntry
 //
 //  Created by 吳浩瑋 on 2022/7/17.
 //
@@ -13,5 +13,11 @@ struct CambridgeDictionaryApp: App {
         WindowGroup {
             ContentView()
         }
+    }
+}
+
+struct Previews_AppEntry_Previews: PreviewProvider {
+    static var previews: some View {
+        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
     }
 }

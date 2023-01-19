@@ -10,11 +10,11 @@ import AVFoundation
 import MediaPlayer
 
 
-
 struct SearchingView: View {
     
     
     @Environment(\.presentationMode) var presentationMode
+    @StateObject var collections = DataSource()
     @State private var result = Dat()
     @State var Word: String = ""
     @State var showed: Bool = false
@@ -52,18 +52,8 @@ struct SearchingView: View {
                 }
                 ScrollView(showsIndicators: false) {
                     ForEach(result.meanings, id: \.partOfSpeech) { meaning in
-                        ZStack {
-                            DetailsView(PartOfSpeech: meaning.partOfSpeech, Definitions: meaning.definitions, StaticMode: StaticMode)
-                                .coordinateSpace(name: meaning.partOfSpeech)
-                            GeometryReader { geo in
-                                Rectangle()
-                                    .foregroundColor(Color("BS"))
-                                    .frame(height: 500)
-                                    .opacity(geo.frame(in: .named(meaning.partOfSpeech)).minY < 800 ? 0 : 1)
-                                    .animation(.easeOut.speed(2), value: geo.frame(in: .named(meaning.partOfSpeech)).minY)
-                                
-                            }
-                        }
+                        DetailsView(PartOfSpeech: meaning.partOfSpeech, Definitions: meaning.definitions, StaticMode: StaticMode)
+                            .coordinateSpace(name: meaning.partOfSpeech)
                         Spacer()
                     }
                     Spacer(minLength: 300)
@@ -73,13 +63,13 @@ struct SearchingView: View {
                 .opacity(showed ? 1 : 0)
                 .scaleEffect(showed ? 1 : 0.3)
                 .animation(.spring().speed(1), value: showed)
-                .cornerRadius(8)
+                .cornerRadius(0)
                 
             }
             .onAppear(perform: fetchData)
             .padding(.horizontal)
         }
-        .edgesIgnoringSafeArea(.bottom)
+        .environmentObject(collections)
         
     }
     func getFocus(focused:Bool) {
@@ -125,8 +115,14 @@ struct ResultView_Previews: PreviewProvider {
             .previewDevice("iPhone 14 Pro Max")
     }
 }
+struct SearchingBoxView: View {
+    var body: some View {
+        VStack {}
+    }
+}
 
 struct IntroduuctionView: View {
+    @EnvironmentObject var collections: DataSource
     @Environment(\.presentationMode) var presentationMode
     var Title: String
     var Phonetics: [Phonetic]
@@ -162,10 +158,15 @@ struct IntroduuctionView: View {
                                 .foregroundColor(Color.secondary)
                         }
                         Spacer()
-                        Image(systemName: d ? "bookmark.fill" : "bookmark")
+                        Image(systemName: collections.words.contains(Title.capitalized) ? "bookmark.fill" : "bookmark")
                             .animation(.default, value: d)
                             .onTapGesture {
-                                d.toggle()
+                                if collections.words.contains(Title.capitalized) {
+                                    collections.words.remove(at: collections.words.firstIndex(of: Title.capitalized)!)
+                                }
+                                else {
+                                    collections.words.append(Title.capitalized)
+                                }
                             }
                     }
                 }

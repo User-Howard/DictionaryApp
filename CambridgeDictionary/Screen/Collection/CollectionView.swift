@@ -9,21 +9,29 @@ import SwiftUI
 
 
 
+class DataSource: ObservableObject {
+    @Published var words: [String]
+    init() {
+        self.words = ["Apple", "Banana", "Word", "Last"]
+    }
+    
+}
+
 struct CollectionView: View {
     
     @State private var showDefinition: Bool = false
-    @State var collections: [String] = ["Apple", "Word", "Last"]
+    @StateObject var collections = DataSource()
     @State var showingWord: String = ""
     @State var dragAmount = CGSize.zero
     var body: some View {
-        List(collections, id: \.self) { collection in
+        List(collections.words, id: \.self) { word in
             Button(action: {
-                showingWord = collection
+                showingWord = word
                 print(showingWord)
                 showDefinition = true
                 
             }, label: {
-                Text(collection)
+                Text(word)
                     .foregroundColor(.primary)
             })
             .sheet(isPresented: $showDefinition) {

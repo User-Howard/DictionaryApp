@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		892A956A28ACBA5F00EA7FF6 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892A956928ACBA5F00EA7FF6 /* DataManager.swift */; };
+		895627BD296311E200F17B77 /* IntelligentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895627BC296311E200F17B77 /* IntelligentView.swift */; };
 		8980B613289FE9FB005E400B /* VolumeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8980B612289FE9FB005E400B /* VolumeObserver.swift */; };
 		89B04B732922204000F72DAA /* CollectionsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B04B722922204000F72DAA /* CollectionsStore.swift */; };
 		89BC092428CD00F600D26872 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89BC092328CD00F600D26872 /* Launch Screen.storyboard */; };
@@ -41,7 +42,8 @@
 
 /* Begin PBXFileReference section */
 		892A956928ACBA5F00EA7FF6 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
-		89510F8328CAF06500639A18 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		89510F8328CAF06500639A18 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		895627BC296311E200F17B77 /* IntelligentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntelligentView.swift; sourceTree = "<group>"; };
 		8980B612289FE9FB005E400B /* VolumeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeObserver.swift; sourceTree = "<group>"; };
 		89B04B722922204000F72DAA /* CollectionsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionsStore.swift; sourceTree = "<group>"; };
 		89BC092328CD00F600D26872 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -93,6 +95,57 @@
 			path = Others;
 			sourceTree = "<group>";
 		};
+		8955B2A229798D090041B2ED /* Searching */ = {
+			isa = PBXGroup;
+			children = (
+				89DBA52E288447B900A26C96 /* SearchingView.swift */,
+			);
+			path = Searching;
+			sourceTree = "<group>";
+		};
+		8955B2A329798D900041B2ED /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				89B04B722922204000F72DAA /* CollectionsStore.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		8955B2A429798DF60041B2ED /* Screen */ = {
+			isa = PBXGroup;
+			children = (
+				8955B2A729798E910041B2ED /* Collection */,
+				8955B2A229798D090041B2ED /* Searching */,
+				8955B2A829798EA20041B2ED /* Intelligent */,
+			);
+			path = Screen;
+			sourceTree = "<group>";
+		};
+		8955B2A529798E4C0041B2ED /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				89BC092328CD00F600D26872 /* Launch Screen.storyboard */,
+				89DBA5032884378400A26C96 /* Assets.xcassets */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		8955B2A729798E910041B2ED /* Collection */ = {
+			isa = PBXGroup;
+			children = (
+				89DBA52B28843B0600A26C96 /* CollectionView.swift */,
+			);
+			path = Collection;
+			sourceTree = "<group>";
+		};
+		8955B2A829798EA20041B2ED /* Intelligent */ = {
+			isa = PBXGroup;
+			children = (
+				895627BC296311E200F17B77 /* IntelligentView.swift */,
+			);
+			path = Intelligent;
+			sourceTree = "<group>";
+		};
 		89DBA4F32884378200A26C96 = {
 			isa = PBXGroup;
 			children = (
@@ -117,14 +170,12 @@
 			isa = PBXGroup;
 			children = (
 				89510F8328CAF06500639A18 /* Info.plist */,
-				89BC092328CD00F600D26872 /* Launch Screen.storyboard */,
 				89DBA4FF2884378200A26C96 /* CambridgeDictionaryApp.swift */,
 				89DBA5012884378200A26C96 /* ContentView.swift */,
-				89DBA52B28843B0600A26C96 /* CollectionView.swift */,
-				89B04B722922204000F72DAA /* CollectionsStore.swift */,
-				89DBA52E288447B900A26C96 /* SearchingView.swift */,
+				8955B2A529798E4C0041B2ED /* Utils */,
+				8955B2A329798D900041B2ED /* Model */,
+				8955B2A429798DF60041B2ED /* Screen */,
 				892A956828ACBA2B00EA7FF6 /* Others */,
-				89DBA5032884378400A26C96 /* Assets.xcassets */,
 				89DBA5052884378400A26C96 /* Preview Content */,
 			);
 			path = CambridgeDictionary;
@@ -288,6 +339,7 @@
 			files = (
 				89B04B732922204000F72DAA /* CollectionsStore.swift in Sources */,
 				89DBA5022884378200A26C96 /* ContentView.swift in Sources */,
+				895627BD296311E200F17B77 /* IntelligentView.swift in Sources */,
 				89DBA52C28843B0600A26C96 /* CollectionView.swift in Sources */,
 				89DBA5002884378200A26C96 /* CambridgeDictionaryApp.swift in Sources */,
 				89DBA52F288447B900A26C96 /* SearchingView.swift in Sources */,
@@ -379,7 +431,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -433,7 +485,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
