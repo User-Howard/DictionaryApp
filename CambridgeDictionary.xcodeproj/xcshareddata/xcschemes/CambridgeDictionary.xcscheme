@@ -17,7 +17,7 @@
                BlueprintIdentifier = "89DBA4FB2884378200A26C96"
                BuildableName = "CambridgeDictionary.app"
                BlueprintName = "CambridgeDictionary"
-               ReferencedContainer = "container:Dictionary.xcodeproj">
+               ReferencedContainer = "container:CambridgeDictionary.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
                BlueprintIdentifier = "89DBA50B2884378400A26C96"
                BuildableName = "CambridgeDictionaryTests.xctest"
                BlueprintName = "CambridgeDictionaryTests"
-               ReferencedContainer = "container:Dictionary.xcodeproj">
+               ReferencedContainer = "container:CambridgeDictionary.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -45,7 +45,7 @@
                BlueprintIdentifier = "89DBA5152884378400A26C96"
                BuildableName = "CambridgeDictionaryUITests.xctest"
                BlueprintName = "CambridgeDictionaryUITests"
-               ReferencedContainer = "container:Dictionary.xcodeproj">
+               ReferencedContainer = "container:CambridgeDictionary.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -67,7 +67,7 @@
             BlueprintIdentifier = "89DBA4FB2884378200A26C96"
             BuildableName = "CambridgeDictionary.app"
             BlueprintName = "CambridgeDictionary"
-            ReferencedContainer = "container:Dictionary.xcodeproj">
+            ReferencedContainer = "container:CambridgeDictionary.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <EnvironmentVariables>
@@ -91,7 +91,7 @@
             BlueprintIdentifier = "89DBA4FB2884378200A26C96"
             BuildableName = "CambridgeDictionary.app"
             BlueprintName = "CambridgeDictionary"
-            ReferencedContainer = "container:Dictionary.xcodeproj">
+            ReferencedContainer = "container:CambridgeDictionary.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
