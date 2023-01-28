@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		892A956A28ACBA5F00EA7FF6 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892A956928ACBA5F00EA7FF6 /* DataManager.swift */; };
 		895627BD296311E200F17B77 /* IntelligentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895627BC296311E200F17B77 /* IntelligentView.swift */; };
+		897B357F297E774900E9E3E4 /* QuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 897B357E297E774900E9E3E4 /* QuizView.swift */; };
 		8980B613289FE9FB005E400B /* VolumeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8980B612289FE9FB005E400B /* VolumeObserver.swift */; };
 		89B04B732922204000F72DAA /* CollectionsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B04B722922204000F72DAA /* CollectionsStore.swift */; };
 		89BC092428CD00F600D26872 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89BC092328CD00F600D26872 /* Launch Screen.storyboard */; };
@@ -44,6 +45,7 @@
 		892A956928ACBA5F00EA7FF6 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		89510F8328CAF06500639A18 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		895627BC296311E200F17B77 /* IntelligentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntelligentView.swift; sourceTree = "<group>"; };
+		897B357E297E774900E9E3E4 /* QuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizView.swift; sourceTree = "<group>"; };
 		8980B612289FE9FB005E400B /* VolumeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeObserver.swift; sourceTree = "<group>"; };
 		89B04B722922204000F72DAA /* CollectionsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionsStore.swift; sourceTree = "<group>"; };
 		89BC092328CD00F600D26872 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				895627BC296311E200F17B77 /* IntelligentView.swift */,
+				897B357E297E774900E9E3E4 /* QuizView.swift */,
 			);
 			path = Intelligent;
 			sourceTree = "<group>";
@@ -285,7 +288,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 89DBA4F72884378200A26C96 /* Build configuration list for PBXProject "CambridgeDictionary" */;
+			buildConfigurationList = 89DBA4F72884378200A26C96 /* Build configuration list for PBXProject "Dictionary" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -339,6 +342,7 @@
 			files = (
 				89B04B732922204000F72DAA /* CollectionsStore.swift in Sources */,
 				89DBA5022884378200A26C96 /* ContentView.swift in Sources */,
+				897B357F297E774900E9E3E4 /* QuizView.swift in Sources */,
 				895627BD296311E200F17B77 /* IntelligentView.swift in Sources */,
 				89DBA52C28843B0600A26C96 /* CollectionView.swift in Sources */,
 				89DBA5002884378200A26C96 /* CambridgeDictionaryApp.swift in Sources */,
@@ -431,7 +435,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -485,7 +489,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -511,15 +515,20 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = NO;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "hao-wei-wu.CambridgeDictionary";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -542,15 +551,20 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = NO;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "hao-wei-wu.CambridgeDictionary";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -636,7 +650,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		89DBA4F72884378200A26C96 /* Build configuration list for PBXProject "CambridgeDictionary" */ = {
+		89DBA4F72884378200A26C96 /* Build configuration list for PBXProject "Dictionary" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				89DBA51E2884378400A26C96 /* Debug */,

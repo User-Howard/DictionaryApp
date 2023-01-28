@@ -15,7 +15,7 @@ struct ContentView: View {
     var body: some View{
         VStack {
             TabView(selection: $selection) {
-                SearchingView(Word: "Apple")
+                SearchingView()
                     .tabItem{
                         Image(systemName: "magnifyingglass")
                         Text("搜尋")
@@ -38,10 +38,7 @@ struct ContentView: View {
                 let appearance = UITabBarAppearance()
                 appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
                 appearance.backgroundColor = UIColor(Color.white.opacity(0.1))
-                
-                // Use this appearance when scrolling behind the TabView:
                 UITabBar.appearance().standardAppearance = appearance
-                // Use this appearance when scrolled all the way up:
                 UITabBar.appearance().scrollEdgeAppearance = appearance
             }
         }.environmentObject(collections)

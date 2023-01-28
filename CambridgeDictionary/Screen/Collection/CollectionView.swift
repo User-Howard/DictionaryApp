@@ -12,7 +12,8 @@ import SwiftUI
 class DataSource: ObservableObject {
     @Published var words: [String]
     init() {
-        self.words = ["Apple", "Banana", "Word", "Last"]
+        // self.words = ["Apple", "Banana", "Word", "Last", "Anticipate"]
+        self.words = ["Apple", "Barrier", "Fare", "Court", "Reception", "Flat", "Pharmacy", "Placement", "Participate", "Ocean", "Evanescent", "Observation", "Recondite", "Attention"]
     }
     
 }

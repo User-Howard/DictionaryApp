@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 import AVFoundation
 import MediaPlayer
 
@@ -21,56 +22,59 @@ struct SearchingView: View {
     @State var ErrorMessage: String = ""
     var StaticMode: Bool = false
     
-    
-    var body: some View {
+    @ViewBuilder var InputWordView: some View {
         VStack {
-            // Spacer(minLength: 70) // 40
-            VStack {
-                ZStack {
-                    IntroduuctionView(Title: result.word, Phonetics: result.phonetics, Showed: showed, ErrorMessage: ErrorMessage, StaticMode: StaticMode)
-                    VStack {
-                        HStack {
-                            if StaticMode {
-                                Text(Word.capitalized)
-                                    .font(.system(size: 35, weight: .bold, design: .default))
-                                    .padding()
-                                    .shadow(radius: 0.2)
-                            }
-                            else {
-                                TextField("Type a word", text: $Word, onEditingChanged: getFocus, onCommit: fetchData)
-                                    .keyboardType(.asciiCapable)
-                                    .font(.system(size: 30, weight: .bold, design: .default))
-                                    .padding()
-                                    .shadow(radius: 0.2)
-                            }
-                            
-                        }
-                        Spacer()
-                    }
-                    .frame(height: 60)
-                    .offset(y: -10)
+            HStack {
+                if StaticMode {
+                    Text(Word.capitalized)
+                        .font(.system(size: 35, weight: .bold, design: .default))
+                        .padding()
+                        .shadow(radius: 0.2)
                 }
-                ScrollView(showsIndicators: false) {
-                    ForEach(result.meanings, id: \.partOfSpeech) { meaning in
-                        DetailsView(PartOfSpeech: meaning.partOfSpeech, Definitions: meaning.definitions, StaticMode: StaticMode)
-                            .coordinateSpace(name: meaning.partOfSpeech)
-                        Spacer()
-                    }
-                    Spacer(minLength: 300)
-                    
+                else {
+                    TextField("Type a word", text: $Word, onEditingChanged: getFocus, onCommit: fetchData)
+                        .keyboardType(.asciiCapable)
+                        .font(.system(size: 30, weight: .bold, design: .default))
+                        .padding()
+                        .shadow(radius: 0.2)
                 }
-                .offset(y: showed ? 0 : 700)
-                .opacity(showed ? 1 : 0)
-                .scaleEffect(showed ? 1 : 0.3)
-                .animation(.spring().speed(1), value: showed)
-                .cornerRadius(0)
                 
             }
-            .onAppear(perform: fetchData)
-            .padding(.horizontal)
+            Spacer()
         }
+    }
+    @ViewBuilder var SearchingTabView: some View {
+        ZStack {
+            SearchingTabBackgroundView(Title: result.word, Phonetics: result.phonetics, Showed: showed, ErrorMessage: ErrorMessage, StaticMode: StaticMode)
+            InputWordView
+            .frame(height: 60)
+            .offset(y: -10)
+        }
+    }
+    @ViewBuilder var ExplanationView: some View {
+        ScrollView(showsIndicators: false) {
+            ForEach(result.meanings, id: \.partOfSpeech) { meaning in
+                DetailsView(PartOfSpeech: meaning.partOfSpeech, Definitions: meaning.definitions, StaticMode: StaticMode)
+                    .coordinateSpace(name: meaning.partOfSpeech)
+                Spacer()
+            }
+            Spacer(minLength: 300)
+            
+        }
+        .offset(y: showed ? 0 : 700)
+        .opacity(showed ? 1 : 0)
+        .scaleEffect(showed ? 1 : 0.3)
+        .animation(.spring().speed(1), value: showed)
+        .cornerRadius(0)
+    }
+    var body: some View {
+        VStack {
+            SearchingTabView
+            ExplanationView
+        }
+        .onAppear(perform: fetchData)
+        .padding(.horizontal)
         .environmentObject(collections)
-        
     }
     func getFocus(focused:Bool) {
         if focused {
@@ -115,13 +119,8 @@ struct ResultView_Previews: PreviewProvider {
             .previewDevice("iPhone 14 Pro Max")
     }
 }
-struct SearchingBoxView: View {
-    var body: some View {
-        VStack {}
-    }
-}
 
-struct IntroduuctionView: View {
+struct SearchingTabBackgroundView: View {
     @EnvironmentObject var collections: DataSource
     @Environment(\.presentationMode) var presentationMode
     var Title: String
@@ -129,13 +128,42 @@ struct IntroduuctionView: View {
     var Showed: Bool
     var ErrorMessage: String
     let StaticMode: Bool
+    let synthesizer = AVSpeechSynthesizer()
     @State private var astr: String = ""
     
     
     
     @State var d :Bool = true
     
-    
+    @ViewBuilder var SubDetailsView: some View {
+        HStack {
+            if Phonetics.count > 0 && Phonetics[0].text != "" && Phonetics[0].text != nil {
+                Text(Phonetics[0].text!)
+                    .font(.system(size: 16, weight: .regular, design: .monospaced))
+                    .foregroundColor(.secondary)
+                Button() {
+                    let utterance = AVSpeechUtterance(string: Title)
+                    utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
+                    synthesizer.speak(utterance)
+                }label: {
+                    Image(systemName: "speaker.wave.3.fill")
+                        .foregroundColor(Color.secondary)
+                }
+            }
+            Spacer()
+            Image(systemName: collections.words.contains(Title.capitalized) ? "bookmark.fill" : "bookmark")
+                .animation(.default, value: d)
+                .onTapGesture {
+                    if collections.words.contains(Title.capitalized) {
+                        collections.words.remove(at: collections.words.firstIndex(of: Title.capitalized)!)
+                    }
+                    else {
+                        collections.words.append(Title.capitalized)
+                    }
+                }
+            
+        }
+    }
     var body: some View {
         ZStack {
             if !StaticMode {
@@ -143,33 +171,7 @@ struct IntroduuctionView: View {
             }
             VStack {
                 Spacer()
-                HStack {
-                    if Phonetics.count > 0 && Phonetics[0].text != "" && Phonetics[0].text != nil {
-                        Text(Phonetics[0].text!)
-                            .font(.system(size: 16, weight: .regular, design: .monospaced))
-                            .foregroundColor(.secondary)
-                        Button() {
-                            let utterance = AVSpeechUtterance(string: Title)
-                            utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
-                            let synthesizer = AVSpeechSynthesizer()
-                            synthesizer.speak(utterance)
-                        }label: {
-                            Image(systemName: "speaker.wave.3.fill")
-                                .foregroundColor(Color.secondary)
-                        }
-                        Spacer()
-                        Image(systemName: collections.words.contains(Title.capitalized) ? "bookmark.fill" : "bookmark")
-                            .animation(.default, value: d)
-                            .onTapGesture {
-                                if collections.words.contains(Title.capitalized) {
-                                    collections.words.remove(at: collections.words.firstIndex(of: Title.capitalized)!)
-                                }
-                                else {
-                                    collections.words.append(Title.capitalized)
-                                }
-                            }
-                    }
-                }
+                SubDetailsView
             }
             .padding()
             VStack {
