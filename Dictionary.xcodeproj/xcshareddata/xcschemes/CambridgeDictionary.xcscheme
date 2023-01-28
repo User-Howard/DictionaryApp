@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "89DBA4FB2884378200A26C96"
-               BuildableName = "CambridgeDictionary.app"
-               BlueprintName = "CambridgeDictionary"
-               ReferencedContainer = "container:CambridgeDictionary.xcodeproj">
+               BuildableName = "Dictionary.app"
+               BlueprintName = "Dictionary"
+               ReferencedContainer = "container:Dictionary.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "89DBA50B2884378400A26C96"
-               BuildableName = "CambridgeDictionaryTests.xctest"
-               BlueprintName = "CambridgeDictionaryTests"
-               ReferencedContainer = "container:CambridgeDictionary.xcodeproj">
+               BuildableName = "DictionaryTests.xctest"
+               BlueprintName = "DictionaryTests"
+               ReferencedContainer = "container:Dictionary.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "89DBA5152884378400A26C96"
-               BuildableName = "CambridgeDictionaryUITests.xctest"
-               BlueprintName = "CambridgeDictionaryUITests"
-               ReferencedContainer = "container:CambridgeDictionary.xcodeproj">
+               BuildableName = "DictionaryUITests.xctest"
+               BlueprintName = "DictionaryUITests"
+               ReferencedContainer = "container:Dictionary.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -65,9 +65,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "89DBA4FB2884378200A26C96"
-            BuildableName = "CambridgeDictionary.app"
-            BlueprintName = "CambridgeDictionary"
-            ReferencedContainer = "container:CambridgeDictionary.xcodeproj">
+            BuildableName = "Dictionary.app"
+            BlueprintName = "Dictionary"
+            ReferencedContainer = "container:Dictionary.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <EnvironmentVariables>
@@ -89,9 +89,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "89DBA4FB2884378200A26C96"
-            BuildableName = "CambridgeDictionary.app"
-            BlueprintName = "CambridgeDictionary"
-            ReferencedContainer = "container:CambridgeDictionary.xcodeproj">
+            BuildableName = "Dictionary.app"
+            BlueprintName = "Dictionary"
+            ReferencedContainer = "container:Dictionary.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -49,14 +49,14 @@
 		8980B612289FE9FB005E400B /* VolumeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeObserver.swift; sourceTree = "<group>"; };
 		89B04B722922204000F72DAA /* CollectionsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionsStore.swift; sourceTree = "<group>"; };
 		89BC092328CD00F600D26872 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
-		89DBA4FC2884378200A26C96 /* CambridgeDictionary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CambridgeDictionary.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		89DBA4FC2884378200A26C96 /* Dictionary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dictionary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89DBA4FF2884378200A26C96 /* CambridgeDictionaryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CambridgeDictionaryApp.swift; sourceTree = "<group>"; };
 		89DBA5012884378200A26C96 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		89DBA5032884378400A26C96 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		89DBA5062884378400A26C96 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		89DBA50C2884378400A26C96 /* CambridgeDictionaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CambridgeDictionaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		89DBA50C2884378400A26C96 /* DictionaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DictionaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89DBA5102884378400A26C96 /* CambridgeDictionaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CambridgeDictionaryTests.swift; sourceTree = "<group>"; };
-		89DBA5162884378400A26C96 /* CambridgeDictionaryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CambridgeDictionaryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		89DBA5162884378400A26C96 /* DictionaryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DictionaryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89DBA51A2884378400A26C96 /* CambridgeDictionaryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CambridgeDictionaryUITests.swift; sourceTree = "<group>"; };
 		89DBA51C2884378400A26C96 /* CambridgeDictionaryUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CambridgeDictionaryUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		89DBA52B28843B0600A26C96 /* CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
@@ -162,9 +162,9 @@
 		89DBA4FD2884378200A26C96 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				89DBA4FC2884378200A26C96 /* CambridgeDictionary.app */,
-				89DBA50C2884378400A26C96 /* CambridgeDictionaryTests.xctest */,
-				89DBA5162884378400A26C96 /* CambridgeDictionaryUITests.xctest */,
+				89DBA4FC2884378200A26C96 /* Dictionary.app */,
+				89DBA50C2884378400A26C96 /* DictionaryTests.xctest */,
+				89DBA5162884378400A26C96 /* DictionaryUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -212,9 +212,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		89DBA4FB2884378200A26C96 /* CambridgeDictionary */ = {
+		89DBA4FB2884378200A26C96 /* Dictionary */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 89DBA5202884378400A26C96 /* Build configuration list for PBXNativeTarget "CambridgeDictionary" */;
+			buildConfigurationList = 89DBA5202884378400A26C96 /* Build configuration list for PBXNativeTarget "Dictionary" */;
 			buildPhases = (
 				89DBA4F82884378200A26C96 /* Sources */,
 				89DBA4F92884378200A26C96 /* Frameworks */,
@@ -224,14 +224,14 @@
 			);
 			dependencies = (
 			);
-			name = CambridgeDictionary;
+			name = Dictionary;
 			productName = CambridgeDictionary;
-			productReference = 89DBA4FC2884378200A26C96 /* CambridgeDictionary.app */;
+			productReference = 89DBA4FC2884378200A26C96 /* Dictionary.app */;
 			productType = "com.apple.product-type.application";
 		};
-		89DBA50B2884378400A26C96 /* CambridgeDictionaryTests */ = {
+		89DBA50B2884378400A26C96 /* DictionaryTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 89DBA5232884378400A26C96 /* Build configuration list for PBXNativeTarget "CambridgeDictionaryTests" */;
+			buildConfigurationList = 89DBA5232884378400A26C96 /* Build configuration list for PBXNativeTarget "DictionaryTests" */;
 			buildPhases = (
 				89DBA5082884378400A26C96 /* Sources */,
 				89DBA5092884378400A26C96 /* Frameworks */,
@@ -242,14 +242,14 @@
 			dependencies = (
 				89DBA50E2884378400A26C96 /* PBXTargetDependency */,
 			);
-			name = CambridgeDictionaryTests;
+			name = DictionaryTests;
 			productName = CambridgeDictionaryTests;
-			productReference = 89DBA50C2884378400A26C96 /* CambridgeDictionaryTests.xctest */;
+			productReference = 89DBA50C2884378400A26C96 /* DictionaryTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		89DBA5152884378400A26C96 /* CambridgeDictionaryUITests */ = {
+		89DBA5152884378400A26C96 /* DictionaryUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 89DBA5262884378400A26C96 /* Build configuration list for PBXNativeTarget "CambridgeDictionaryUITests" */;
+			buildConfigurationList = 89DBA5262884378400A26C96 /* Build configuration list for PBXNativeTarget "DictionaryUITests" */;
 			buildPhases = (
 				89DBA5122884378400A26C96 /* Sources */,
 				89DBA5132884378400A26C96 /* Frameworks */,
@@ -260,9 +260,9 @@
 			dependencies = (
 				89DBA5182884378400A26C96 /* PBXTargetDependency */,
 			);
-			name = CambridgeDictionaryUITests;
+			name = DictionaryUITests;
 			productName = CambridgeDictionaryUITests;
-			productReference = 89DBA5162884378400A26C96 /* CambridgeDictionaryUITests.xctest */;
+			productReference = 89DBA5162884378400A26C96 /* DictionaryUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -288,7 +288,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 89DBA4F72884378200A26C96 /* Build configuration list for PBXProject "CambridgeDictionary" */;
+			buildConfigurationList = 89DBA4F72884378200A26C96 /* Build configuration list for PBXProject "Dictionary" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -301,9 +301,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				89DBA4FB2884378200A26C96 /* CambridgeDictionary */,
-				89DBA50B2884378400A26C96 /* CambridgeDictionaryTests */,
-				89DBA5152884378400A26C96 /* CambridgeDictionaryUITests */,
+				89DBA4FB2884378200A26C96 /* Dictionary */,
+				89DBA50B2884378400A26C96 /* DictionaryTests */,
+				89DBA5152884378400A26C96 /* DictionaryUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -374,12 +374,12 @@
 /* Begin PBXTargetDependency section */
 		89DBA50E2884378400A26C96 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 89DBA4FB2884378200A26C96 /* CambridgeDictionary */;
+			target = 89DBA4FB2884378200A26C96 /* Dictionary */;
 			targetProxy = 89DBA50D2884378400A26C96 /* PBXContainerItemProxy */;
 		};
 		89DBA5182884378400A26C96 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 89DBA4FB2884378200A26C96 /* CambridgeDictionary */;
+			target = 89DBA4FB2884378200A26C96 /* Dictionary */;
 			targetProxy = 89DBA5172884378400A26C96 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -587,7 +587,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CambridgeDictionary.app/CambridgeDictionary";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dictionary.app/Dictionary";
 			};
 			name = Debug;
 		};
@@ -607,7 +607,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CambridgeDictionary.app/CambridgeDictionary";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dictionary.app/Dictionary";
 			};
 			name = Release;
 		};
@@ -650,7 +650,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		89DBA4F72884378200A26C96 /* Build configuration list for PBXProject "CambridgeDictionary" */ = {
+		89DBA4F72884378200A26C96 /* Build configuration list for PBXProject "Dictionary" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				89DBA51E2884378400A26C96 /* Debug */,
@@ -659,7 +659,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		89DBA5202884378400A26C96 /* Build configuration list for PBXNativeTarget "CambridgeDictionary" */ = {
+		89DBA5202884378400A26C96 /* Build configuration list for PBXNativeTarget "Dictionary" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				89DBA5212884378400A26C96 /* Debug */,
@@ -668,7 +668,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		89DBA5232884378400A26C96 /* Build configuration list for PBXNativeTarget "CambridgeDictionaryTests" */ = {
+		89DBA5232884378400A26C96 /* Build configuration list for PBXNativeTarget "DictionaryTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				89DBA5242884378400A26C96 /* Debug */,
@@ -677,7 +677,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		89DBA5262884378400A26C96 /* Build configuration list for PBXNativeTarget "CambridgeDictionaryUITests" */ = {
+		89DBA5262884378400A26C96 /* Build configuration list for PBXNativeTarget "DictionaryUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				89DBA5272884378400A26C96 /* Debug */,
