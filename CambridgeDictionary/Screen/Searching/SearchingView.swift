@@ -15,7 +15,7 @@ struct SearchingView: View {
     
     
     @Environment(\.presentationMode) var presentationMode
-    @StateObject var collections = DataSource()
+    @EnvironmentObject var collections : DataSource
     @State private var result = Dat()
     @State var Word: String = ""
     @State var showed: Bool = false
@@ -45,7 +45,7 @@ struct SearchingView: View {
     }
     @ViewBuilder var SearchingTabView: some View {
         ZStack {
-            SearchingTabBackgroundView(Title: result.word, Phonetics: result.phonetics, Showed: showed, ErrorMessage: ErrorMessage, StaticMode: StaticMode)
+            SearchingTabBackgroundView(Title: Word, Phonetics: result.phonetics, Showed: showed, ErrorMessage: ErrorMessage, StaticMode: StaticMode)
             InputWordView
             .frame(height: 60)
             .offset(y: -10)
@@ -74,7 +74,6 @@ struct SearchingView: View {
         }
         .onAppear(perform: fetchData)
         .padding(.horizontal)
-        .environmentObject(collections)
     }
     func getFocus(focused:Bool) {
         if focused {
@@ -97,6 +96,7 @@ struct SearchingView: View {
                     do {
                         let decoder = JSONDecoder()
                         let decodedData = try decoder.decode([Dat].self, from: data)
+                        
                         self.result = decodedData[0]
                     } catch {
                         print(error)
@@ -121,8 +121,8 @@ struct ResultView_Previews: PreviewProvider {
 }
 
 struct SearchingTabBackgroundView: View {
-    @EnvironmentObject var collections: DataSource
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var collections : DataSource
     var Title: String
     var Phonetics: [Phonetic]
     var Showed: Bool
@@ -155,10 +155,12 @@ struct SearchingTabBackgroundView: View {
                 .animation(.default, value: d)
                 .onTapGesture {
                     if collections.words.contains(Title.capitalized) {
-                        collections.words.remove(at: collections.words.firstIndex(of: Title.capitalized)!)
+                        print("remove" + Title.capitalized)
+                        collections.removeWord(word: Title.capitalized)
                     }
                     else {
-                        collections.words.append(Title.capitalized)
+                        print("add" + Title.capitalized)
+                        collections.addWord(word: Title.capitalized)
                     }
                 }
             
@@ -171,7 +173,9 @@ struct SearchingTabBackgroundView: View {
             }
             VStack {
                 Spacer()
-                SubDetailsView
+                if (Title != "---" && Title != ""){
+                    SubDetailsView
+                }
             }
             .padding()
             VStack {

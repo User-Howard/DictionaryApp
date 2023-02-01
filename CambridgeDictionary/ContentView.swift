@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     
     @State private var selection = 0
-    @StateObject var collections = DataSource()
+    let collections : DataSource = DataSource()
     
     var body: some View{
         VStack {
@@ -41,7 +41,8 @@ struct ContentView: View {
                 UITabBar.appearance().standardAppearance = appearance
                 UITabBar.appearance().scrollEdgeAppearance = appearance
             }
-        }.environmentObject(collections)
+            .environmentObject(collections)
+        }
         
     }
 }

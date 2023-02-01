@@ -7,13 +7,49 @@
 
 import SwiftUI
 
-
+struct SinglePage: View {
+    @State var Title_: String
+    @State var Body_: String
+    var body: some View {
+        ZStack {
+            ZStack {
+                Color("ResultView.BackgroundColor")
+                
+                ZStack {
+                    VStack {
+                        Text(Title_)
+                            .font(.title.bold())
+                            .padding()
+                        Spacer()
+                    }
+                    Text(Body_)
+                        .font(.body)
+                        .padding()
+                        .border(.secondary)
+                        .padding()
+                }
+            }.cornerRadius(8)
+        }
+    }
+}
 struct ProblemView: View {
     var problem: String
+    var answer: String
+    @State var showAnswer: Bool = false
     var body: some View {
-        VStack {
-            Text(problem)
-            Color.accentColor
+        
+        
+        ZStack {
+            SinglePage(Title_: "Problem", Body_: problem)
+                .rotation3DEffect(.degrees(showAnswer ? 180 : 0), axis: (x: 1, y: 0, z: 0))
+                .opacity(showAnswer ? 0 : 1)
+                .animation(.easeInOut, value: showAnswer)
+            SinglePage(Title_: "Answer", Body_: answer)
+                .rotation3DEffect(.degrees(showAnswer ? 0 : 180), axis: (x: 1, y: 0, z: 0))
+                .opacity(showAnswer ? 1 : 0)
+                .animation(.easeInOut, value: showAnswer)
+        }.onTapGesture {
+            showAnswer.toggle()
         }
     }
 }
@@ -23,18 +59,25 @@ struct QuizView: View {
     @State private var selected = 0
     @State private var waitingResult: Bool = false
     @State private var generatedText: String = "."
+    @State private var Problems: Quiz = [QuizElement()]
     @StateObject var collections = DataSource()
     var body: some View {
         
         ZStack {
-            Text(generatedText)
-            /*
-            TabView(selection: $selected) {
-                TextGenerator.ProblemView(problem: "A")
-                    .tag(0)
-                TextGenerator.ProblemView(problem: "B")
-                    .tag(1)
-            }.tabViewStyle(.page(indexDisplayMode: .never))*/
+            TabView() {
+                ForEach(Problems.indices, id: \.self) { idx in
+                    ProblemView(problem: Problems[idx].problem, answer: Problems[idx].answer)
+                        .padding(.horizontal)
+                }
+            }.tabViewStyle(.page(indexDisplayMode: .always))
+            RoundedRectangle(cornerRadius: 8)
+                .foregroundColor(.gray.opacity(waitingResult ? 0.4 : 0))
+                .padding(.horizontal)
+                .animation(.easeOut, value: waitingResult)
+            ProgressView()
+                .scaleEffect(waitingResult ? 1: 0)
+                .animation(.easeOut, value: waitingResult)
+            
         }.onAppear {
             generateQuiz()
         }
@@ -46,7 +89,7 @@ struct QuizView: View {
         var request = URLRequest(url: url)
         request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        var prompt = "用以下單字作為英文單字克漏字的答案。一個單字一題，多用片語。\n請提供題目和答案的json格式檔案，並且不要回其他多餘的回答。\n回傳要類似這一種結構：\n{\"problems\":[{\"problem\":\"\", \"answer\":\"\"}, {\"problem\":\"\", \"answer\":\"\"}\n]}\n"
+        var prompt = "用以下單字作為英文單字填充題的答案。一個單字一題，多用片語。\n填空題又稱填充題、完形填空、克漏字（英語：cloze）、克漏字測驗或填空測驗，是在功課、測驗、考試中的其中一種題型，題目會有一段句子，會把當中的部分字詞留空，作答者需要填上合適的文字或標點符號。請提供題目和答案的json格式檔案，並且不要回其他多餘的回答。回傳要類似這一種結構：[{\"problem\":\"\", \"answer\":\"\"},\n{\"problem\":\"\", \"answer\":\"\"}\n]"
         for i in collections.words {
             prompt = prompt + i + "\n"
         }
@@ -63,14 +106,22 @@ struct QuizView: View {
             }
             
             if let data = data {
-                let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
-                if let responseJSON = responseJSON as? [String: Any] {
-                    let choices = responseJSON["choices"] as! [[String: Any]]
-                    let firstChoice = choices[0]
-                    let generatedText = firstChoice["text"] as! String
-                    print(choices)
-                    self.generatedText = generatedText.trimmingCharacters( in : .whitespacesAndNewlines)
-                    self.waitingResult = false
+                do {
+                    let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+                    if let responseJSON = responseJSON as? [String: Any] {
+                        let choices = responseJSON["choices"] as! [[String: Any]]
+                        let firstChoice = choices[0]
+                        let generatedText = firstChoice["text"] as! String
+                        
+                        self.generatedText = generatedText.trimmingCharacters( in : .whitespacesAndNewlines)
+                        print(self.generatedText)
+                        let decodedData = try? JSONDecoder().decode([QuizElement].self, from: Data(self.generatedText.utf8))
+                        print(decodedData)
+                        self.Problems = decodedData!
+                        self.waitingResult = false
+                    }
+                } catch {
+                    print(error)
                 }
             }
         }.resume()
@@ -80,6 +131,7 @@ struct QuizView: View {
 
 struct QuizView_Previews: PreviewProvider {
     static var previews: some View {
-        QuizView()
+        // QuizView()
+        ProblemView(problem: "The apple tree was a ___ to the dirds.", answer: "barrier")
     }
 }

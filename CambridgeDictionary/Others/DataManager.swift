@@ -10,7 +10,21 @@
 //   let welcome = try? newJSONDecoder().decode(Welcome.self, from: jsonData)
 // from https://app.quicktype.io
 
+/* ------------------- */
 import Foundation
+
+// MARK: - QuizElement
+struct QuizElement: Codable {
+    var problem, answer: String
+    init() {
+        problem = ""
+        answer = ""
+    }
+}
+
+typealias Quiz = [QuizElement]
+
+/* ------------------- */
 
 // MARK: - Dat
 struct Dat: Codable {
