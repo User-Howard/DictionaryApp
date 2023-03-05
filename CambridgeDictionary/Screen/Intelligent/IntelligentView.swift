@@ -37,27 +37,53 @@ struct TextGenerator: View {
     
     
     @ViewBuilder var InputBoxView: some View {
-        TextField("", text: $inputText, prompt: Text("Enter some text here..."), axis: .vertical)
-            .font(.system(size: 20, weight: .medium, design: .default))
-            .textFieldStyle(.roundedBorder)
-            .focused($isFocused)
-            .padding(.horizontal)
-            .lineLimit(3...5)
-            .toolbar {
-                ToolbarItemGroup(placement: .keyboard) {
+        ZStack {
+            Color("ResultView.BackgroundColor")
+            TextField("", text: $inputText, prompt: Text("Enter some text here..."), axis: .vertical)
+                .font(.system(size: 20, weight: .medium, design: .default))
+                .focused($isFocused)
+                .padding()
+                .toolbar {
+                    ToolbarItemGroup(placement: .keyboard) {
+                        Spacer()
+                        Image(systemName: "keyboard.chevron.compact.down.fill")
+                            .onTapGesture {
+                                isFocused = false
+                            }
+                            .padding()
+                        Image(systemName: "arrowshape.turn.up.right.fill")
+                            .onTapGesture {
+                                isFocused = false
+                                generateText()
+                            }
+                    }
+                }
+            HStack {
+                Spacer()
+                VStack {
+                    Button(action: {
+                        inputText = ""
+                        isFocused = true
+                    }, label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(.secondary)
+                    })
+                    .padding()
                     Spacer()
-                    Image(systemName: "keyboard.chevron.compact.down.fill")
-                        .onTapGesture {
-                            isFocused = false
-                        }
-                        .padding()
-                    Image(systemName: "arrowshape.turn.up.right.fill")
-                        .onTapGesture {
-                            isFocused = false
-                            generateText()
-                        }
                 }
             }
+        }
+        .frame(height: 200)
+        .contextMenu {
+            Button(action: {
+                UIPasteboard.general.string = inputText
+            }, label: {
+                Label("複製到剪貼板", systemImage: "doc.on.clipboard")
+            })
+            
+        }
+        .cornerRadius(8)
+        .padding(.horizontal)
     }
     @ViewBuilder var PickModePicker: some View {
         ZStack {
@@ -86,17 +112,26 @@ struct TextGenerator: View {
                 Spacer()
             }
         }
+        .contextMenu {
+            Button(action: {
+                UIPasteboard.general.string = generatedText
+            }, label: {
+                Label("複製到剪貼板", systemImage: "doc.on.clipboard")
+            })
+            
+        }
         .cornerRadius(8)
         .padding(.horizontal)
     }
     var body: some View {
         VStack {
             // Label("Enter some text here...", systemImage: "square.and.pencil")
+            PickModePicker
+                .padding(.horizontal)
             if (selectedMode != 2) {
                 InputBoxView
             }
-            PickModePicker
-                .padding(.horizontal)
+            
             if (selectedMode == 2) {
                 QuizView()
             }

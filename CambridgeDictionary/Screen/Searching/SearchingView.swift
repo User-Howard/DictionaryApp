@@ -20,9 +20,11 @@ struct SearchingView: View {
     @State var Word: String = ""
     @State var showed: Bool = false
     @State var ErrorMessage: String = ""
+    @FocusState private var focused: Bool
     var StaticMode: Bool = false
     
     @ViewBuilder var InputWordView: some View {
+        
         VStack {
             HStack {
                 if StaticMode {
@@ -33,12 +35,33 @@ struct SearchingView: View {
                 }
                 else {
                     TextField("Type a word", text: $Word, onEditingChanged: getFocus, onCommit: fetchData)
+                        .focused($focused)
+                        
                         .keyboardType(.asciiCapable)
+                        .submitLabel(.search)
                         .font(.system(size: 30, weight: .bold, design: .default))
                         .padding()
                         .shadow(radius: 0.2)
+                    if focused==true {
+                        Button(action: {
+                            focused = false
+                            fetchData()
+                        }, label: {
+                            Image(systemName: "arrowshape.turn.up.right.fill")
+                        })
+                        .padding(.horizontal)
+                    }
+                    else {
+                        Button(action: {
+                            Word = ""
+                            focused = true
+                        }, label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(.secondary)
+                        })
+                        .padding(.horizontal)
+                    }
                 }
-                
             }
             Spacer()
         }
@@ -55,7 +78,6 @@ struct SearchingView: View {
         ScrollView(showsIndicators: false) {
             ForEach(result.meanings, id: \.partOfSpeech) { meaning in
                 DetailsView(PartOfSpeech: meaning.partOfSpeech, Definitions: meaning.definitions, StaticMode: StaticMode)
-                    .coordinateSpace(name: meaning.partOfSpeech)
                 Spacer()
             }
             Spacer(minLength: 300)
@@ -64,7 +86,7 @@ struct SearchingView: View {
         .offset(y: showed ? 0 : 700)
         .opacity(showed ? 1 : 0)
         .scaleEffect(showed ? 1 : 0.3)
-        .animation(.spring().speed(1), value: showed)
+        .animation(.spring().speed(1.2), value: showed)
         .cornerRadius(0)
     }
     var body: some View {
@@ -81,42 +103,53 @@ struct SearchingView: View {
         }
     }
     func fetchData() {
-        let urlString: String = "https://api.dictionaryapi.dev/api/v2/entries/en/" + Word.trimmingCharacters(in: .whitespaces)
-
-        print("Fetch ... ", urlString)
-        guard let url = URL(string: urlString) else {
-            print("Invalid url.")
-            showed = false
-            ErrorMessage = "Invalid Words"
-            return
-        }
-        URLSession.shared.dataTask(with: url) { data, _, error in
-            DispatchQueue.main.async {
-                if let data = data {
-                    do {
-                        let decoder = JSONDecoder()
-                        let decodedData = try decoder.decode([Dat].self, from: data)
-                        
-                        self.result = decodedData[0]
-                    } catch {
-                        print(error)
-                        showed = false
-                        ErrorMessage = "Invalid Word"
-                        return
-                    }
-                }
-            }
-            
+        Word = Word.capitalized.trimmingCharacters(in: .whitespaces)
+        if let value = collections.database[Word] {
+            self.result = value
             showed = true
             ErrorMessage = ""
-        }.resume()
+        }
+        else {
+            let urlString: String = "https://api.dictionaryapi.dev/api/v2/entries/en/" + Word.trimmingCharacters(in: .whitespaces)
+            print("Fetch ... ", urlString)
+            guard let url = URL(string: urlString) else {
+                print("Invalid url.")
+                showed = false
+                ErrorMessage = "Invalid Words"
+                return
+            }
+            URLSession.shared.dataTask(with: url) { data, _, error in
+                DispatchQueue.main.async {
+                    if let data = data {
+                        do {
+                            let decoder = JSONDecoder()
+                            let decodedData = try decoder.decode([Dat].self, from: data)
+                            
+                            self.result = decodedData[0]
+                            collections.database[Word] = self.result
+                            showed = true
+                            ErrorMessage = ""
+                        } catch {
+                            print(error)
+                            showed = false
+                            ErrorMessage = "Invalid Word"
+                            return
+                        }
+                    }
+                }
+            }.resume()
+        }
+        
     }
 }
 
 struct ResultView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchingView(Word: "Apple")
+        ContentView()
             .previewDevice("iPhone 14 Pro Max")
+        /*
+        SearchingView(Word: "Apple")
+            .previewDevice("iPhone 14 Pro Max")*/
     }
 }
 
@@ -151,18 +184,18 @@ struct SearchingTabBackgroundView: View {
                 }
             }
             Spacer()
-            Image(systemName: collections.words.contains(Title.capitalized) ? "bookmark.fill" : "bookmark")
-                .animation(.default, value: d)
-                .onTapGesture {
-                    if collections.words.contains(Title.capitalized) {
-                        print("remove" + Title.capitalized)
-                        collections.removeWord(word: Title.capitalized)
-                    }
-                    else {
-                        print("add" + Title.capitalized)
-                        collections.addWord(word: Title.capitalized)
-                    }
+            Button(action: {
+                if collections.words.contains(Title.capitalized) {
+                    print("remove" + Title.capitalized)
+                    collections.removeWord(word: Title.capitalized)
                 }
+                else {
+                    print("add" + Title.capitalized)
+                    collections.addWord(word: Title.capitalized)
+                }
+            }, label: {
+                Image(systemName: collections.words.contains(Title.capitalized) ? "bookmark.fill" : "bookmark")
+            })
             
         }
     }
@@ -171,26 +204,28 @@ struct SearchingTabBackgroundView: View {
             if !StaticMode {
                 Color("ResultView.BackgroundColor")
             }
-            VStack {
-                Spacer()
-                if (Title != "---" && Title != ""){
-                    SubDetailsView
-                }
-            }
-            .padding()
-            VStack {
-                HStack {
+            if (Title != "---" && Title != ""){
+                
+                VStack {
                     Spacer()
-                    Text(ErrorMessage)
-                        .font(.system(size: 10, design: .monospaced))
-                        .animation(.easeOut, value: ErrorMessage)
-                    Circle()
-                        .foregroundColor(Showed ? .green : .red)
-                        .animation(.easeOut, value: Showed)
-                        .frame(width: 5, height: 5)
-                        .padding(3)
+                    SubDetailsView
+                    
                 }
-                Spacer()
+                .padding()
+                VStack {
+                    HStack {
+                        Spacer()
+                        Text(ErrorMessage)
+                            .font(.system(size: 10, design: .monospaced))
+                            .animation(.easeOut, value: ErrorMessage)
+                        Circle()
+                            .foregroundColor(Showed ? .green : .red)
+                            .animation(.easeOut, value: Showed)
+                            .frame(width: 5, height: 5)
+                            .padding(3)
+                    }
+                    Spacer()
+                }
             }
         }.frame(minWidth: 0, idealWidth: 100, maxWidth: .infinity, minHeight: 0, idealHeight: 20, maxHeight: 90, alignment: .leading)
             .cornerRadius(8)
@@ -243,7 +278,16 @@ struct DetailsView: View {
                                         Spacer()
                                     }
                                 }
-                            }.padding(5)
+                            }
+                            .contextMenu {
+                                Button(action: {
+                                    UIPasteboard.general.string = definition.definition
+                                }, label: {
+                                    Label("複製到剪貼板", systemImage: "doc.on.clipboard")
+                                })
+                                
+                            }
+                            .padding(5)
                             
                             Text("")
                         }

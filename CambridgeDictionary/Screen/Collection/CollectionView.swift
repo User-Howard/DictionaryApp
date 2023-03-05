@@ -11,9 +11,11 @@ import SwiftUI
 
 class DataSource: ObservableObject {
     @Published var words: [String]
+    @Published var database: [String: Dat]
     init() {
         // self.words = ["Apple", "Banana", "Word", "Last", "Anticipate"]
         self.words = ["Apple", "Barrier", "Fare", "Court", "Reception", "Flat", "Pharmacy", "Placement", "Participate", "Ocean", "Evanescent", "Observation", "Recondite", "Attention"]
+        self.database = ["---": Dat()]
     }
     func addWord(word: String) {
         print("add to list")
@@ -25,46 +27,56 @@ class DataSource: ObservableObject {
         self.words.remove(at: self.words.firstIndex(of: word)!)
     }
 }
-
+struct AlertView: View {
+    var body: some View {
+        HStack(alignment: .top) {
+            Image(systemName: "bookmark.fill")
+                .font(.title)
+            Text("已新增新單字至「收藏」")
+                .fontWeight(.bold)
+        }
+        .padding()
+        .background(.thinMaterial)
+        .cornerRadius(8)
+    }
+}
 struct CollectionView: View {
     
     @State private var showDefinition: Bool = false
     @EnvironmentObject var collections : DataSource
-    @State var showingWord: String = ""
+    @State var showingWord: String = "Apple"
     @State var dragAmount = CGSize.zero
     @State private var onEdit: Bool = false
+    
+    
     var body: some View {
         NavigationStack {
-            List(collections.words, id: \.self) { word in
-                Button(action: {
-                    showingWord = word
-                    print(showingWord)
-                    showDefinition = true
+            List {
+                ForEach(collections.words, id: \.self) { word in
+                    Button(action: {
+                        showingWord = word
+                        showDefinition = true
+                        print(showingWord)
+                        
+                    }, label: {
+                        Text(word)
+                            .foregroundColor(.primary)
+                    })
                     
-                }, label: {
-                    Text(word)
-                        .foregroundColor(.primary)
-                })
-                .sheet(isPresented: $showDefinition) {
-                    SearchingView(Word: showingWord, StaticMode: true)
-                        .padding(.top)
                 }
+                .onDelete { item in
+                    print(item)
+                    collections.words.remove(atOffsets: item)
+                }
+            }
+            .sheet(isPresented: $showDefinition) {
+                SearchingView(Word: showingWord, StaticMode: true)
+                    .padding(.top)
             }
             .navigationTitle("單字庫")
-            .toolbar {
-                if onEdit {
-                    
-                    Button("Cancel", action: {
-                        onEdit = false
-                    })
-                }
-                else {
-                    Button("Edit", action: {
-                        onEdit = true
-                    })
-                }
+            .navigationBarItems(trailing: EditButton())
+            .navigationBarTitleDisplayMode(.inline)
                 
-            }
         }
     }
 }
@@ -73,6 +85,8 @@ struct CollectionView_Previews: PreviewProvider {
     static var previews: some View {
 //        CollectionView()
 //            .previewDevice("iPhone 14 pro")
+        AlertView()
+            .previewDevice("iPhone 14 pro")
         ContentView()
             .previewDevice("iPhone 14 pro")
         

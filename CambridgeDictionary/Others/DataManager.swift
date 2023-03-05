@@ -54,9 +54,9 @@ struct License: Codable {
 
 // MARK: - Meaning
 struct Meaning: Codable {
-    let partOfSpeech: String
-    let definitions: [Definition]
-    let synonyms, antonyms: [String]
+    var partOfSpeech: String
+    var definitions: [Definition]
+    var synonyms, antonyms: [String]
     init() {
         partOfSpeech = "-"
         definitions = []

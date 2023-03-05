@@ -20,6 +20,9 @@ struct SinglePage: View {
                         Text(Title_)
                             .font(.title.bold())
                             .padding()
+                        Text("按下這一個頁面以切換答案/題目")
+                            .font(.subheadline)
+                            .opacity(0.5)
                         Spacer()
                     }
                     Text(Body_)
@@ -35,12 +38,13 @@ struct SinglePage: View {
 struct ProblemView: View {
     var problem: String
     var answer: String
+    var idx: Int
     @State var showAnswer: Bool = false
     var body: some View {
         
         
         ZStack {
-            SinglePage(Title_: "Problem", Body_: problem)
+            SinglePage(Title_: "Cloze Test \(idx+1)", Body_: problem)
                 .rotation3DEffect(.degrees(showAnswer ? 180 : 0), axis: (x: 1, y: 0, z: 0))
                 .opacity(showAnswer ? 0 : 1)
                 .animation(.easeInOut, value: showAnswer)
@@ -66,10 +70,11 @@ struct QuizView: View {
         ZStack {
             TabView() {
                 ForEach(Problems.indices, id: \.self) { idx in
-                    ProblemView(problem: Problems[idx].problem, answer: Problems[idx].answer)
+                    ProblemView(problem: Problems[idx].problem, answer: Problems[idx].answer, idx: idx)
                         .padding(.horizontal)
                 }
-            }.tabViewStyle(.page(indexDisplayMode: .always))
+            }
+            .tabViewStyle(.page(indexDisplayMode: .always))
             RoundedRectangle(cornerRadius: 8)
                 .foregroundColor(.gray.opacity(waitingResult ? 0.4 : 0))
                 .padding(.horizontal)
@@ -131,7 +136,6 @@ struct QuizView: View {
 
 struct QuizView_Previews: PreviewProvider {
     static var previews: some View {
-        // QuizView()
-        ProblemView(problem: "The apple tree was a ___ to the dirds.", answer: "barrier")
+        QuizView()
     }
 }
