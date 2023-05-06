@@ -101,7 +101,9 @@ struct Phonetic: Codable {
 // MARK: - Encode/decode helpers
 
 class JSONNull: Codable, Hashable {
-
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(0)
+    }
     public static func == (lhs: JSONNull, rhs: JSONNull) -> Bool {
         return true
     }

@@ -75,19 +75,25 @@ struct SearchingView: View {
         }
     }
     @ViewBuilder var ExplanationView: some View {
-        ScrollView(showsIndicators: false) {
-            ForEach(result.meanings, id: \.partOfSpeech) { meaning in
-                DetailsView(PartOfSpeech: meaning.partOfSpeech, Definitions: meaning.definitions, StaticMode: StaticMode)
-                Spacer()
+        VStack {
+            ScrollView(showsIndicators: false) {
+                ForEach(result.meanings, id: \.partOfSpeech) { meaning in
+                    DetailsView(PartOfSpeech: meaning.partOfSpeech, Definitions: meaning.definitions, StaticMode: StaticMode)
+                    Spacer()
+                }
+                Spacer(minLength: 300)
+                
             }
-            Spacer(minLength: 300)
-            
         }
+        .opacity( showed ? 1 : 0)
+        .scaleEffect(showed ? 1 : 0.7)
+        .cornerRadius(0)
+        /*
         .offset(y: showed ? 0 : 700)
         .opacity(showed ? 1 : 0)
         .scaleEffect(showed ? 1 : 0.3)
         .animation(.spring().speed(1.2), value: showed)
-        .cornerRadius(0)
+        .cornerRadius(0)*/
     }
     var body: some View {
         VStack {
@@ -106,7 +112,9 @@ struct SearchingView: View {
         Word = Word.capitalized.trimmingCharacters(in: .whitespaces)
         if let value = collections.database[Word] {
             self.result = value
-            showed = true
+            withAnimation(.spring().speed(2)) {
+                showed = true
+            }
             ErrorMessage = ""
         }
         else {
@@ -127,7 +135,10 @@ struct SearchingView: View {
                             
                             self.result = decodedData[0]
                             collections.database[Word] = self.result
-                            showed = true
+                            
+                            withAnimation(.spring().speed(2)) {
+                                showed = true
+                            }
                             ErrorMessage = ""
                         } catch {
                             print(error)

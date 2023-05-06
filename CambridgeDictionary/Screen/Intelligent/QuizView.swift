@@ -121,12 +121,10 @@ struct QuizView: View {
                         self.generatedText = generatedText.trimmingCharacters( in : .whitespacesAndNewlines)
                         print(self.generatedText)
                         let decodedData = try? JSONDecoder().decode([QuizElement].self, from: Data(self.generatedText.utf8))
-                        print(decodedData)
+                        print(decodedData ?? "None")
                         self.Problems = decodedData!
                         self.waitingResult = false
                     }
-                } catch {
-                    print(error)
                 }
             }
         }.resume()
