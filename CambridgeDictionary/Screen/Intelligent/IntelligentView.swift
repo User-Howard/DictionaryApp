@@ -24,7 +24,7 @@ struct TextGenerator: View {
     @State private var inputText = ""
     @State var waitingResult: Bool = false
     
-    let apiKey = "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"
+    let apiKey = "sk-"
     let model = "text-davinci-003"
     @FocusState private var isFocused: Bool
     
