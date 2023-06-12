@@ -1,3 +1,3 @@
 # DictionaryApp
 
-<img width="398" alt="截圖 2023-06-12 上午1 32 06" src="https://github.com/User-Howard/DictionaryApp/assets/60650989/a7e73dc8-44db-49da-8b87-bfe7a01f6ca7">
+<img width="398" alt="截圖 2023-06-12 上午1 32 06" src="https://github.com/User-Howard/DictionaryApp/assets/60650989/bd6501a0-8f7e-41b6-a72f-d479a8ab7381">
