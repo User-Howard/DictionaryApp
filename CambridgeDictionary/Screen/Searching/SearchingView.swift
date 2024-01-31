@@ -17,9 +17,10 @@ struct SearchingView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var collections : DataSource
     @State private var result = Dat()
-    @State var Word: String = ""
+    @Binding var Word: String
     @State var showed: Bool = false
     @State var ErrorMessage: String = ""
+    @State private var showAlert = false
     @FocusState private var focused: Bool
     var StaticMode: Bool = false
     
@@ -68,7 +69,7 @@ struct SearchingView: View {
     }
     @ViewBuilder var SearchingTabView: some View {
         ZStack {
-            SearchingTabBackgroundView(Title: Word, Phonetics: result.phonetics, Showed: showed, ErrorMessage: ErrorMessage, StaticMode: StaticMode)
+            SearchingTabBackgroundView(Title: Word, Phonetics: result.phonetics, Showed: showed, ErrorMessage: ErrorMessage, StaticMode: StaticMode, showAlert: $showAlert)
             InputWordView
             .frame(height: 60)
             .offset(y: -10)
@@ -102,6 +103,10 @@ struct SearchingView: View {
         }
         .onAppear(perform: fetchData)
         .padding(.horizontal)
+        .overlay(
+            AlertView(showAlert: $showAlert)
+        )
+        
     }
     func getFocus(focused:Bool) {
         if focused {
@@ -109,6 +114,9 @@ struct SearchingView: View {
         }
     }
     func fetchData() {
+        if Word == "" {
+            return
+        }
         Word = Word.capitalized.trimmingCharacters(in: .whitespaces)
         if let value = collections.database[Word] {
             self.result = value
@@ -174,6 +182,7 @@ struct SearchingTabBackgroundView: View {
     let StaticMode: Bool
     let synthesizer = AVSpeechSynthesizer()
     @State private var astr: String = ""
+    @Binding var showAlert: Bool
     
     
     
@@ -203,6 +212,10 @@ struct SearchingTabBackgroundView: View {
                 else {
                     print("add" + Title.capitalized)
                     collections.addWord(word: Title.capitalized)
+                    showAlert = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                        self.showAlert = false
+                    }
                 }
             }, label: {
                 Image(systemName: collections.words.contains(Title.capitalized) ? "bookmark.fill" : "bookmark")
