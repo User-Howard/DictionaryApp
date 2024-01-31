@@ -10,6 +10,7 @@ import SwiftUI
 
 
 class DataSource: ObservableObject {
+    
     @Published var words: [String]
     @Published var database: [String: Dat]
     init() {
@@ -18,6 +19,7 @@ class DataSource: ObservableObject {
         self.database = ["---": Dat()]
     }
     func addWord(word: String) {
+        
         print("add to list")
         self.words.append(word)
     }
@@ -28,6 +30,7 @@ class DataSource: ObservableObject {
     }
 }
 struct AlertView: View {
+    @Binding var showAlert: Bool
     var body: some View {
         HStack(alignment: .top) {
             Image(systemName: "bookmark.fill")
@@ -38,13 +41,17 @@ struct AlertView: View {
         .padding()
         .background(.thinMaterial)
         .cornerRadius(8)
+        .scaleEffect(showAlert ? 1 : 0.8)
+        .opacity(showAlert ? 1 : 0)
+        .animation(.spring().speed(2), value: showAlert)
+        
     }
 }
 struct CollectionView: View {
     
     @State private var showDefinition: Bool = false
     @EnvironmentObject var collections : DataSource
-    @State var showingWord: String = "Apple"
+    @State private var showingWord: String = ""
     @State var dragAmount = CGSize.zero
     @State private var onEdit: Bool = false
     
@@ -70,7 +77,7 @@ struct CollectionView: View {
                 }
             }
             .sheet(isPresented: $showDefinition) {
-                SearchingView(Word: showingWord, StaticMode: true)
+                SearchingView(Word: $showingWord, StaticMode: true)
                     .padding(.top)
             }
             .navigationTitle("單字庫")
@@ -85,8 +92,6 @@ struct CollectionView_Previews: PreviewProvider {
     static var previews: some View {
 //        CollectionView()
 //            .previewDevice("iPhone 14 pro")
-        AlertView()
-            .previewDevice("iPhone 14 pro")
         ContentView()
             .previewDevice("iPhone 14 pro")
         

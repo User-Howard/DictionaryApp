@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
-    
+    @State private var Word = ""
     @State private var selection = 0
     let collections : DataSource = DataSource()
     
     var body: some View{
         VStack {
             TabView(selection: $selection) {
-                SearchingView()
+                SearchingView(Word: $Word)
                     .tabItem{
                         Image(systemName: "magnifyingglass")
                         Text("搜尋")
