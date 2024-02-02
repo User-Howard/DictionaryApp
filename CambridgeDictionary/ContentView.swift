@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var Word = ""
+    @State private var Word = "Word"
     @State private var selection = 0
     let collections : DataSource = DataSource()
     

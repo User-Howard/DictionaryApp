@@ -77,13 +77,14 @@ struct SearchingView: View {
     }
     @ViewBuilder var ExplanationView: some View {
         VStack {
-            ScrollView(showsIndicators: false) {
-                ForEach(result.meanings, id: \.partOfSpeech) { meaning in
-                    DetailsView(PartOfSpeech: meaning.partOfSpeech, Definitions: meaning.definitions, StaticMode: StaticMode)
-                    Spacer()
+            ScrollViewReader { proxy in
+                ScrollView(showsIndicators: false) {
+                    ForEach(result.meanings, id: \.partOfSpeech) { meaning in
+                        DetailsView(PartOfSpeech: meaning.partOfSpeech, Definitions: meaning.definitions, StaticMode: StaticMode)
+                        Spacer()
+                    }
+                    Spacer(minLength: 300)
                 }
-                Spacer(minLength: 300)
-                
             }
         }
         .opacity( showed ? 1 : 0)
@@ -166,9 +167,6 @@ struct ResultView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
             .previewDevice("iPhone 14 Pro Max")
-        /*
-        SearchingView(Word: "Apple")
-            .previewDevice("iPhone 14 Pro Max")*/
     }
 }
 
@@ -269,58 +267,67 @@ struct DetailsView: View {
                 Color("ResultView.BackgroundColor")
             }
             VStack {
-                HStack {
-                    Label(PartOfSpeech.capitalized, systemImage: "sun.min.fill")
-                        .font(.system(size: 17, weight: .bold))
-                    Spacer()
-                }
-                .padding([.top, .horizontal])
+                UnevenRoundedRectangle(cornerRadii: .init(
+                    topLeading: 8.0,
+                    bottomLeading: 0.0,
+                    bottomTrailing: 0.0,
+                    topTrailing: 8.0),
+                                       style: .circular)
+                .frame(height: 42)
+                .foregroundStyle(.blue)
+                .opacity(0.4)
+                .overlay(
+                    HStack {
+                        Label(PartOfSpeech.capitalized, systemImage: "sun.min.fill")
+                            .font(.system(size: 17, weight: .bold))
+                        Spacer()
+                    }
+                        .padding([.horizontal])
+                )
                 
                 Divider()
                 
-                ZStack {
-                    VStack {
-                        let enumerated = Array(zip(Definitions.indices, Definitions))
-                        ForEach(enumerated, id:\.0) { index, definition in
-                            if index != 0 {
-                                Divider()
-                                    .padding(.horizontal)
+                VStack {
+                    let enumerated = Array(zip(Definitions.indices, Definitions))
+                    ForEach(enumerated, id:\.0) { index, definition in
+                        if index != 0 {
+                            Divider()
+                                .padding(.horizontal)
+                        }
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Text(definition.definition)
+                                    .padding([.horizontal])
+                                Spacer()
                             }
-                            VStack(alignment: .leading) {
+                            if definition.example != nil {
+                                Text("")
                                 HStack {
-                                    Text(definition.definition)
+                                    Text(definition.example!)
+                                        .font(.system(size: 16, design: .default))
+                                        .italic()
                                         .padding([.horizontal])
                                     Spacer()
                                 }
-                                if definition.example != nil {
-                                    Text("")
-                                    HStack {
-                                        Text(definition.example!)
-                                            .font(.system(size: 16, design: .default))
-                                            .italic()
-                                            .padding([.horizontal])
-                                        Spacer()
-                                    }
-                                }
                             }
-                            .contextMenu {
-                                Button(action: {
-                                    UIPasteboard.general.string = definition.definition
-                                }, label: {
-                                    Label("複製到剪貼板", systemImage: "doc.on.clipboard")
-                                })
-                                
-                            }
-                            .padding(5)
-                            
-                            Text("")
                         }
+                        .contextMenu {
+                            Button(action: {
+                                UIPasteboard.general.string = definition.definition
+                            }, label: {
+                                Label("複製到剪貼板", systemImage: "doc.on.clipboard")
+                            })
+                            
+                        }
+                        .padding(5)
+                        
+                        Text("")
                     }
-
                 }
+                
             }
 
-        }.cornerRadius(8)
+        }//.cornerRadius(8)
         
     }
 }
