@@ -1,8 +1,8 @@
 //
 //  ContentView.swift
-//  CambridgeDictionary
+//  Dictionary
 //
-//  Created by 吳浩瑋 on 2022/7/17.
+//  Created by Howard Wu on 2024/3/6.
 //
 
 import SwiftUI
@@ -47,9 +47,7 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-            .previewDevice("iPhone 14 pro")
-    }
+#Preview {
+    ContentView()
+        .modelContainer(for: Item.self, inMemory: true)
 }

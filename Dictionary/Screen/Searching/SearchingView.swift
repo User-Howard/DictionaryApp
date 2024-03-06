@@ -89,7 +89,14 @@ struct SearchingView: View {
         }
         .opacity( showed ? 1 : 0)
         .scaleEffect(showed ? 1 : 0.7)
-        .cornerRadius(0)
+        .clipShape (
+            UnevenRoundedRectangle(cornerRadii: .init(
+                topLeading: 8.0,
+                bottomLeading: 0.0,
+                bottomTrailing: 0.0,
+                topTrailing: 8.0),
+                                   style: .circular)
+        )
         /*
         .offset(y: showed ? 0 : 700)
         .opacity(showed ? 1 : 0)
@@ -267,23 +274,12 @@ struct DetailsView: View {
                 Color("ResultView.BackgroundColor")
             }
             VStack {
-                UnevenRoundedRectangle(cornerRadii: .init(
-                    topLeading: 8.0,
-                    bottomLeading: 0.0,
-                    bottomTrailing: 0.0,
-                    topTrailing: 8.0),
-                                       style: .circular)
-                .frame(height: 42)
-                .foregroundStyle(.blue)
-                .opacity(0.4)
-                .overlay(
-                    HStack {
-                        Label(PartOfSpeech.capitalized, systemImage: "sun.min.fill")
-                            .font(.system(size: 17, weight: .bold))
-                        Spacer()
-                    }
-                        .padding([.horizontal])
-                )
+                HStack {
+                    Label(PartOfSpeech.capitalized, systemImage: "sun.min.fill")
+                        .font(.system(size: 17, weight: .bold))
+                    Spacer()
+                }
+                .padding([.top, .horizontal])
                 
                 Divider()
                 
@@ -327,7 +323,7 @@ struct DetailsView: View {
                 
             }
 
-        }//.cornerRadius(8)
+        }.cornerRadius(8)
         
     }
 }
